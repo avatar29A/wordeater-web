@@ -15,7 +15,7 @@ SECRET_KEY = '\2\1flsdfldsfoglsfo33fdsafs\1\2\e\y\y\h'
 #
 # Версия
 #
-version = "0.1.0"
+version = config.get('APPLICATION', 'version')
 
 #
 # API
