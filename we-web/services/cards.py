@@ -8,14 +8,6 @@ from logger import logger
 
 
 class CardService(BaseService):
-    def list(self, user):
-        """
-        Returns user's cards
-        :return: list of user's card
-        """
-
-        return list(self.connection.Card.find({'user.$id': user.id}))
-
     def create(self,
                user,
                foreign,
@@ -65,40 +57,3 @@ class CardService(BaseService):
             return None
 
         return card
-
-    def clear(self):
-        """
-        Remove all cards from database
-        :return: count of removed cards.
-        """
-
-        count = self.connection.Card.find().count()
-        self.connection.Card.drop()
-
-        return count
-
-    def get(self, user_id, text, lang):
-        """
-        Return card by user's login and native word
-        :param user:
-        :param native: native word
-        :return:
-        """
-
-        card = self.connection.Card.find_one({'user.$id': user_id,
-                                              'text': {'$elemMatch': {'lang': lang, 'value': text}}})
-
-        return card
-
-if __name__ == '__main__':
-    from domain.model import db
-    from services.users import UserService
-
-    us = UserService(db)
-    cs = CardService(db)
-
-    user = us.get(u'warlock')
-
-    for i in range(0, 30):
-        card = cs.create(user, u'dog{0}'.format(i), u'cane{0}'.format(i))
-        print card

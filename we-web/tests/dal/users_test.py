@@ -2,7 +2,8 @@
 
 import unittest
 from dal_test_base import db, BaseTest
-from domain.model import User
+from domain.users import User
+from domain.cards import Card
 
 
 __author__ = 'Glebov Boris'
