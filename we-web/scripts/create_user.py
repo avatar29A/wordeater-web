@@ -15,7 +15,7 @@ class CreateUser(Command):
         print u"Run create user with name 'warlock'"
 
         us = UserService(db)
-        user = us.create(u'warlock', u'en', u'it', u'Boris', u'Glebov')
+        user = us.create(u'warlock', u'ru', u'en', u'Boris', u'Glebov')
 
         print u'User: {0}'.format(user)
 

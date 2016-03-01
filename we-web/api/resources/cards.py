@@ -18,6 +18,6 @@ class CardsAPI(Resource):
         """
 
         return {
-            'data': [{'id':'123', 'name': '12'}]
+            'data': [{'id': '123', 'name': '12'}]
         }
 

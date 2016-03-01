@@ -26,12 +26,12 @@ __author__ = 'Warlock'
 
 groups_ns = api.namespace(name='Groups', description="Requests for page groups", path=API_PATH)
 
+
 def get_user():
     us = UserService(db)
 
     current_user = session['user']
-    #user = us.get(current_user['login'])
-    user = us.get(u'warlock')
+    user = us.get(current_user['login'])
 
     return user
 
