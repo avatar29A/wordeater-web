@@ -1,0 +1,31 @@
+# MongoDB
+pymongo==2.8.1
+mongokit==0.9.1.1
+
+# Flask:
+
+Flask
+Flask-MongoKit
+Flask-Bower
+Flask-Script
+
+# API
+flask-restplus==0.8.0
+Flask-RESTful==0.3.4
+Cerberus==0.9.2
+bleach
+
+# Memcached
+python-memcached
+flask-memcache-session
+
+Blueprints
+
+# Assets
+Flask-Assets
+jsmin
+cssmin
+
+# Tools:
+configparser2==4.0.0
+pydash

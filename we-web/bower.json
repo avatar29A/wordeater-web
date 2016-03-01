@@ -1,0 +1,29 @@
+{
+  "name": "wordeater",
+  "version": "0.1.0",
+  "authors": [
+    "Boris Glebov <avatar29A@gmail.com>"
+  ],
+  "description": "Wordeater",
+  "main": "we-web.py",
+  "keywords": [
+    "we, wordeater"
+  ],
+  "license": "MIT",
+  "homepage": "localhost",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "knockout": "~3.3.0",
+    "select2": "",
+    "select2-bootstrap-theme": "",
+    "lodash": "4.5.0",
+    "toastr": "2.1.1",
+    "async": "1.4.0"
+  }
+}
