@@ -10,10 +10,16 @@ from werkzeug.contrib.cache import MemcachedCache
 from utils.wordeater_api import WordeaterApi
 from flask.ext.restplus import apidoc
 
+from services.service_locator import ServiceLocator
+from services.real import cards, users
+
 app = Flask(__name__)
 #app.cache = MemcachedCache([config.MEMCACHED['host'], config.MEMCACHED['port']], 0)
 #app.session_interface = Session()
 app.secret_key = config.SECRET_KEY
+
+# REGISTER SERVICES IN ServiceLocator
+ServiceLocator.register(ServiceLocator.USERS, users.UserService())
 
 
 @app.route('/')
@@ -26,6 +32,7 @@ def swagger_ui():
     return apidoc.ui_for(api)
 
 api = WordeaterApi(app, version='1', title='', ui=False)
+
 
 
 @app.errorhandler(404)

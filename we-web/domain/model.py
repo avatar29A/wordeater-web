@@ -23,6 +23,12 @@ class BaseDocument(Document):
     def id(self):
         return self._id
 
+    def count(self):
+        return db[self.__database__][self.__collection__].find().count()
+
+    def all(self):
+        return list(db[self.__database__][self.__collection__].find())
+
     def drop(self):
         return db[self.__database__][self.__collection__].drop()
 
