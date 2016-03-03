@@ -1,31 +1,51 @@
 # coding=utf-8
-__author__ = 'Warlock'
 
 from services.base import BaseService
-from services.groups import GroupService
-
 from logger import logger
+
+__author__ = 'Warlock'
 
 
 class CardService(BaseService):
+
+    #
+    # Public interface
+
+    def list(self, user):
+        """
+        Returns user's cards
+        :param user: User entity
+        :return: list of user's card
+        """
+
+        assert user, u"User could't be None"
+
+        return list(self.db.Card.find({'user.$id': user.id}))
+
     def create(self,
                user,
+               group,
                foreign,
                native,
-               transcription=u'', context=u'', image_url=u''):
+               transcription=u'',
+               context=u'',
+               image_url=u''):
         """
         Create new card
+        :param group: it's group where a card need to add. .
+        :param image_url:
+        :param context:
+        :param transcription:
         :param user: Owner
         :param native: Native word
         :param foreign: Translated word
         :return: a new card
         """
 
-        card = self.get(user.id, native, user.native_lng)
-        if card is not None:
-            return card
+        assert user and group, u'User and Group is not none parameters'
+        assert foreign and native, u'Foreign and Native is not empty parameters'
 
-        card = self.connection.Card(lang=user.native_lng, fallback_lang=user.native_lng)
+        card = self.db.Card(lang=user.native_lng, fallback_lang=user.native_lng)
 
         card.user = user
 
@@ -44,16 +64,57 @@ class CardService(BaseService):
         card.image_url = image_url
 
         # Link with group:
-        group_service = GroupService(db)
-        card.group = group_service.get(user)
+        card.group = group
 
         try:
             card.validate()
             card.save()
 
-            group_service.update_word_counter(card.group)
+            # Update amount cards in group
+            group.cards_count += 1
+            group.save()
         except Exception as ex:
-            logger.error(ex.message)
+            logger.error(u'Card.create', ex)
             return None
 
         return card
+
+    def single(self, user, text, lang):
+        """
+        Return card by user's login and native word
+        :param user: User entity
+        :param text: native word
+        :param lang: language
+        :return:
+        """
+
+        card = self.db.Card.find_one({'user.$id': user.id,
+                                      'text': {'$elemMatch': {'lang': lang, 'value': text}}})
+
+        return card
+
+    def to_native(self, card):
+        """
+        Returns a native card text
+        :param card: Card
+        :return: native text
+        """
+
+        assert card and card.user
+
+        card.set_lang(card.user.native_lng)
+
+        return card.text
+
+    def to_foreign(self, card):
+        """
+        Returns a foreign card text
+        :param card: Card
+        :return: foreign text
+        """
+
+        assert card and card.user
+
+        card.set_lang(card.user.foreign_lng)
+
+        return card.text

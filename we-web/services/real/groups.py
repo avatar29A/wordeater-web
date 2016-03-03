@@ -46,6 +46,14 @@ class GroupService(BaseService):
 
         return self._get_by_user(user)
 
+    def pick_up(self, user):
+        """
+        Pick up group for user.
+        :return: Group
+        """
+
+        return self.single(None, user)
+
     def create(self, user, name, descripton=u''):
         """
         Create a new group
