@@ -2,7 +2,6 @@
 
 import unittest
 from dal_test_base import db, BaseTest
-from domain.cards import Card
 
 
 __author__ = 'Glebov Boris'

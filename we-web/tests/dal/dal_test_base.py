@@ -7,6 +7,7 @@ from services.service_locator import ServiceLocator
 from services.real.users import UserService
 from services.real.groups import GroupService
 
+
 config.DATABASE['db_name'] = 'we_test'
 
 from domain.model import db

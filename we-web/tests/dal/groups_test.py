@@ -1,7 +1,6 @@
 # coding=utf-8
 
 from dal_test_base import db, BaseTest
-from domain.groups import Group
 from services.service_locator import ServiceLocator
 
 __author__ = 'Glebov Boris'
@@ -186,6 +185,5 @@ class GroupCountTest(GroupsTest):
         Return count user's groups
         :return: Count user's groups
         """
-
         self._generate_groups(self.user1, 3)
         self.assertEqual(self.gs.count(self.user1), 3)

@@ -38,3 +38,10 @@ class BaseDocument(Document):
             self.save()
 
         return self
+
+#
+# IMPORT MODELS
+
+from domain.users import User
+from domain.cards import Card
+from domain.cards import Group

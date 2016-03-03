@@ -7,14 +7,8 @@ __author__ = 'Warlock'
 
 class UserService(BaseService):
 
-    def single(self, login):
-        """
-        Return user from User collection
-        :param login: user's login
-        :return: User entity
-        """
-
-        return self.db.User.find_one({'login': login})
+    #
+    # Public interfaces
 
     def create(self, login,
                native=u'ru',
@@ -32,6 +26,8 @@ class UserService(BaseService):
         :param sex: sex
         :return: user entity
         """
+
+        assert login, u'Login is required parameter'
 
         user = self.single(login)
 
@@ -57,10 +53,21 @@ class UserService(BaseService):
             logger.error(u"UserService.create", ex)
             return None
 
+    def single(self, login):
+        """
+        Return user from User collection
+        :param login: user's login
+        :return: User entity
+        """
+
+        assert login, u'Login is required parameter'
+
+        return self.db.User.find_one({'login': login})
+
     def exists(self, login):
         """
         Check user exits in database
         :param login: user login
         :return: true or false
         """
-        return self.db.User.find_one({'login': login}) is not None
+        return self.single(login) is not None
