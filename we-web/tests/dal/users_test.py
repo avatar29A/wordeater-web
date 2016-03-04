@@ -1,6 +1,9 @@
 # coding=utf-8
 
+import config
+
 from dal_test_base import BaseTest, ServiceLocator
+from itsdangerous import TimedJSONWebSignatureSerializer as TokenSerializer, BadSignature, SignatureExpired
 
 __author__ = 'Glebov Boris'
 
@@ -84,3 +87,37 @@ class UsersSingleTest(UsersTest):
         self._generate_users(1)
 
         self.assertIsNotNone(self.us.exists(u'user1'))
+
+
+class UsersSignTest(UsersTest):
+    def test_sign_in(self):
+        """
+        Registration
+        :return:
+        """
+
+        login = u'warlock'
+        user = self.us.sign_in(login)
+
+        self.assertIsNotNone(user)
+
+    def test_make_token_auth(self):
+        user = self.us.sign_in(u'user1')
+
+        s = TokenSerializer(config.SECRET_KEY, expires_in=config.SESSION_EXPIRES)
+        token = s.dumps({u'login': user[u'login']})
+
+        self.assertEqual(token, self.us.make_auth_token(user), u'Tokens are not equal.')
+
+    def test_verify_token_auth_is_expired(self):
+        token = 'eyJhbGciOiJIUzI1NiIsImV4cCI6MTQ1NzA5NDUzNywiaWF0IjoxNDU3MDk0MjM3fQ.eyJsb2dpbiI6InVzZXIxIn0.CgzzQwmcKGliwWuOIUCHVnzK8wvVkXCB7fV8jTFIZXM'
+        login = self.us.verify_auth_token(token)
+
+        self.assertIsNone(login)
+
+    def test_verify_token_auth(self):
+        expected_login = u'user1'
+        s = TokenSerializer(config.SECRET_KEY, expires_in=config.SESSION_EXPIRES)
+        token = s.dumps({u'login': expected_login})
+
+        self.assertEqual(expected_login, self.us.verify_auth_token(token))

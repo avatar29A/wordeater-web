@@ -22,7 +22,7 @@ from api.mapper.card_mapper import card_to_dict_for_learn
 
 from logger import logger
 
-__author__ = 'Warlock'
+__author__ = 'Glebov Boris'
 
 groups_ns = api.namespace(name='Groups', description="Requests for page groups", path=API_PATH)
 

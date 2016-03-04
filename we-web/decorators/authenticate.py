@@ -1,18 +1,18 @@
 # coding=utf-8
-__author__ = 'Warlock'
+import uuid
+import json
 
 from flask import request, session, redirect
 from functools import wraps
 from logger import logger
 
-from services.users import UserService
-from services.login_audits import LoginAutits
+from services.service_locator import ServiceLocator
 
 from domain.model import db
 
-import uuid
 
-import json
+__author__ = 'Glebov Boris'
+
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
@@ -37,19 +37,17 @@ def requires_auth(f):
         user = session.get('user')
 
         if user is None:
-            user_service = UserService(db)
+            user_service = ServiceLocator.resolve(ServiceLocator.USERS)
+            la_service = ServiceLocator.resolve(ServiceLocator.LOGIN_AUDIT)
+
             new_user = user_service.create(u"user_{0}".format(unicode(uuid.uuid4())), u'en', u'it')
+            la_service.create(new_user.login, unicode(request.remote_addr))
 
             session['user'] = {
                 'id': str(new_user.id),
-                'login': new_user.login
+                'login': new_user.login,
+                'remote_addr': unicode(request.remote_addr)
             }
-
-            try:
-                la = LoginAutits(db)
-                la.create(new_user.login, unicode(request.remote_addr))
-            except Exception as ex:
-                logger.error(ex.message)
 
         return f(*args, **kwargs)
     return decorated

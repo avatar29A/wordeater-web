@@ -1,6 +1,9 @@
 # coding=utf-8
+import config
+
 from services.base import BaseService
 from logger import logger
+from itsdangerous import TimedJSONWebSignatureSerializer as TokenSerializer, BadSignature, SignatureExpired
 
 __author__ = 'Warlock'
 
@@ -71,3 +74,41 @@ class UserService(BaseService):
         :return: true or false
         """
         return self.single(login) is not None
+
+    def sign_in(self, login):
+        """
+        Authorization in system.
+
+        Firs stage: Required only user login. If user is doesn't exist, he will be created.
+        :return:
+        """
+        assert login
+
+        return self.create(login)
+
+    def make_auth_token(self, user):
+        """
+        Generate new security user token for user
+        :param user: User
+        :return: Token
+        """
+
+        s = TokenSerializer(config.SECRET_KEY, expires_in=config.SESSION_EXPIRES)
+
+        return s.dumps({u'login': user[u'login']})
+
+    def verify_auth_token(self, token):
+        """
+        Token verification. Check token by expires and valid.
+        :param token: token
+        :return: user's login
+        """
+
+        s = TokenSerializer(config.SECRET_KEY)
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None  # valid token, but expired
+        except BadSignature:
+            return None  # invalid token
+        return data[u'login']

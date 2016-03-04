@@ -40,5 +40,4 @@ LOG_PATH = config.get('LOGGER', 'directory')
 
 # [APPLICATION]
 CARDS_IN_GROUP_AMOUNT = int(config.get('APPLICATION', 'cards_in_group_amount'))
-
-
+SESSION_EXPIRES = int(config.get('APPLICATION', 'session_expires'))

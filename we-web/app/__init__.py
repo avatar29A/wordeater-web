@@ -1,6 +1,4 @@
 # coding=utf-8
-__author__ = 'Warlock'
-
 import config
 
 from flask import Flask, render_template, redirect
@@ -13,10 +11,17 @@ from flask.ext.restplus import apidoc
 from services.service_locator import ServiceLocator
 from services.real import cards, users, groups
 
+from api.common.auth import add_cors_header
+
+__author__ = 'Glebov Boris'
+
 app = Flask(__name__)
 #app.cache = MemcachedCache([config.MEMCACHED['host'], config.MEMCACHED['port']], 0)
 #app.session_interface = Session()
 app.secret_key = config.SECRET_KEY
+
+# добавление заголовков для CORS
+app.after_request(add_cors_header)
 
 # REGISTER SERVICES IN ServiceLocator
 ServiceLocator.register(ServiceLocator.USERS, users.UserService())
