@@ -2,8 +2,7 @@
 
 from dal_test_base import db, BaseTest
 from services.service_locator import ServiceLocator
-from pydash import py_
-from datetime import datetime, date
+from datetime import date
 
 __author__ = 'Glebov Boris'
 
