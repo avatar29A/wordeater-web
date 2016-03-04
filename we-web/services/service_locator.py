@@ -6,7 +6,9 @@ class ServiceLocator(object):
     USERS = "users"
     GROUPS = "groups"
     CARDS = "cards"
+    SCHEDULES = "schedules"
     LOGIN_AUDIT = "login_audit"
+
     DB = "db"
 
     __service_factory = {}

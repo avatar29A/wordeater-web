@@ -52,6 +52,7 @@ class GroupsForLearnAPI(Resource):
             'data': py_(groups).map(group_to_dict).value()
         }
 
+
 @groups_ns.route('/learn/group/<group_id>/', endpoint='group_for_learn')
 class GroupForLearnAPI(Resource):
     def get(self, group_id):
@@ -99,52 +100,4 @@ class GroupForLearnAPI(Resource):
         except Exception as ex:
             logger.error(ex.message)
             api.abort(500)
-
-    @staticmethod
-    def _add_to_training(user, card):
-        schedule = db.Schedule.find_one({'user.$id': user.id, 'card.$id': card.id})
-        if schedule:
-            return schedule
-
-        schedule = db.Schedule()
-        schedule.user = user
-        schedule.card = card
-
-        now = datetime.datetime.now()
-
-        # throught one day:
-        schedule.dates.append({
-            'date': now + datetime.timedelta(days=1),
-            'is_compleate': False
-        })
-
-        # throught three_day
-        schedule.dates.append({
-            'date': now + datetime.timedelta(days=3),
-            'is_compleate': False
-        })
-
-        schedule.dates.append({
-            'date': now + datetime.timedelta(days=4),
-            'is_compleate': False
-        })
-
-        schedule.dates.append({
-            'date': now + datetime.timedelta(days=30),
-            'is_compleate': False
-        })
-
-        schedule.dates.append({
-            'date': now + datetime.timedelta(days=60),
-            'is_compleate': False
-        })
-
-        try:
-            schedule.validate()
-            schedule.save()
-        except Exception as ex:
-            logger.error(ex.message)
-            return None
-
-        return schedule
 

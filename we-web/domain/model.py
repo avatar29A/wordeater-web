@@ -45,3 +45,5 @@ class BaseDocument(Document):
 from domain.users import User
 from domain.cards import Card
 from domain.cards import Group
+from domain.login_audit import LoginAudit
+from domain.schedules import Schedule

@@ -9,6 +9,7 @@ __author__ = 'Warlock'
 
 cards_ns = api.namespace(name='Cards', description="Requests for page words", path=API_PATH)
 
+
 @cards_ns.route('/list/', endpoint='cards')
 class CardsAPI(Resource):
     def get(self):

@@ -8,6 +8,7 @@ from services.real.users import UserService
 from services.real.groups import GroupService
 from services.real.cards import CardService
 from services.real.login_audits import LoginAutits
+from services.real.schedules import ScheduleService
 
 
 config.DATABASE['db_name'] = 'we_test'
@@ -24,6 +25,7 @@ class BaseTest(unittest.TestCase):
         ServiceLocator.register(ServiceLocator.GROUPS, GroupService())
         ServiceLocator.register(ServiceLocator.CARDS, CardService())
         ServiceLocator.register(ServiceLocator.LOGIN_AUDIT, LoginAutits())
+        ServiceLocator.register(ServiceLocator.SCHEDULES, ScheduleService())
 
     def tearDown(self):
         self.clear_db()
