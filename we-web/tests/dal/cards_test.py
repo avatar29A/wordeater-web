@@ -17,8 +17,6 @@ class CardsTest(BaseTest):
         self.us = ServiceLocator.resolve(ServiceLocator.USERS)
         self.gs = ServiceLocator.resolve(ServiceLocator.GROUPS)
 
-        self.user1 = self.us.create(u'user1')
-
 
 class CardsListTest(CardsTest):
     """
@@ -41,7 +39,8 @@ class CardsListTest(CardsTest):
 
         self.clear_db()
 
-        self.assertEqual(self.cs.list(self.user1), [])
+        user = self.us.create(u'warlock')
+        self.assertEqual(self.cs.list(user), [])
 
 
 class CardsCreateTest(CardsTest):
@@ -67,20 +66,9 @@ class CardsCreateTest(CardsTest):
         user = self.us.create(u'warlock')
         group = self.gs.pick_up(user)
 
-        native = u'собака'
-        foreign = u'dog'
-
-        card = self.cs.create(user, group, foreign, native)
+        card = self.cs.create(user, group, u'dog', u'native')
 
         self.assertIsNotNone(card)
-
-        card.set_lang(user.native_lng)
-
-        self.assertEqual(card.text, u'собака')
-
-        card.set_lang(user.foreign_lng)
-
-        self.assertEqual(card.text, u'dog')
 
     def test_create_cards_and_groups(self):
         """
@@ -99,3 +87,32 @@ class CardsCreateTest(CardsTest):
 
             self.assertIsNotNone(card)
             self.assertEqual(group.name, u'Group #{0}'.format((i / config.CARDS_IN_GROUP_AMOUNT) + 1))
+
+
+class CardsExtractText(CardsTest):
+    """
+    Extract native and foreign text from card
+    """
+
+    def test_to_native(self):
+        card = self._create_card(u'dog', u'собака')
+
+        native = self.cs.to_native(card)
+
+        self.assertEqual(u'собака', native)
+
+    def test_to_foreign(self):
+        card = self._create_card(u'dog', u'собака')
+
+        foreign = self.cs.to_foreign(card)
+
+        self.assertEqual(u'dog', foreign)
+
+    def _create_card(self, foreign, native):
+        user = self.us.create(u'warlock')
+        group = self.gs.pick_up(user)
+
+        card = self.cs.create(user, group, foreign, native)
+
+        return card
+
