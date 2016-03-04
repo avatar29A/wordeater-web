@@ -7,6 +7,7 @@ from services.service_locator import ServiceLocator
 from services.real.users import UserService
 from services.real.groups import GroupService
 from services.real.cards import CardService
+from services.real.login_audits import LoginAutits
 
 
 config.DATABASE['db_name'] = 'we_test'
@@ -22,6 +23,7 @@ class BaseTest(unittest.TestCase):
         ServiceLocator.register(ServiceLocator.USERS, UserService())
         ServiceLocator.register(ServiceLocator.GROUPS, GroupService())
         ServiceLocator.register(ServiceLocator.CARDS, CardService())
+        ServiceLocator.register(ServiceLocator.LOGIN_AUDIT, LoginAutits())
 
     def tearDown(self):
         self.clear_db()

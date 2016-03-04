@@ -8,7 +8,9 @@ from logger import logger
 
 class LoginAutits(BaseService):
     def create(self, login, ip):
-        login_audit = self.connection.LoginAudit()
+        assert login and ip, u"Login and IP can't be is empty"
+
+        login_audit = self.db.LoginAudit()
 
         login_audit.login = login
         login_audit.ip = ip

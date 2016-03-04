@@ -13,7 +13,10 @@ class GroupsTest(BaseTest):
         self.gs = ServiceLocator.resolve(ServiceLocator.GROUPS)
         self.us = ServiceLocator.resolve(ServiceLocator.USERS)
 
-        self.user1 = self.us.create(u'user1')
+    @property
+    def user1(self):
+        user = self.us.create(u'user1')
+        return user
 
     def _generate_groups(self, user, amount):
         for i in range(0, amount):
