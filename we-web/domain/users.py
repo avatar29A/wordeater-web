@@ -27,9 +27,7 @@ class User(BaseDocument):
            'activation_code': unicode,
            'is_reminders_turn': bool,  # Напоминания включены
            'is_notifications_turn': bool  # Уведомления включены
-        },
-
-        'author': ObjectId
+        }
     }
 
     default_values = {
@@ -51,8 +49,4 @@ class User(BaseDocument):
     @property
     def cards(self):
         return list(db.Card.find({"user.$id": self.id}))
-
-    @staticmethod
-    def get_collection():
-        return db.User
 

@@ -32,7 +32,3 @@ class Group(BaseDocument):
     @property
     def cards(self):
         return db.Card.find({"group.$id": self.id})
-
-    @staticmethod
-    def get_collection():
-        return db.Group

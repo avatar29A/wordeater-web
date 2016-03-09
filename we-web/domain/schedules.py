@@ -21,7 +21,3 @@ class Schedule(BaseDocument):
     default_values = {
         'create_date': datetime.datetime.now()
     }
-
-    @staticmethod
-    def get_collection():
-        return db.Schedule

@@ -13,6 +13,3 @@ class LoginAudit(BaseDocument):
         'author': ObjectId
     }
 
-    @staticmethod
-    def get_collection():
-        return db.LoginAudit

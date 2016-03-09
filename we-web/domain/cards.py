@@ -33,7 +33,3 @@ class Card(BaseDocument):
         'is_studying': True,
         'is_done': False
     }
-
-    @staticmethod
-    def get_collection():
-        return db.Card

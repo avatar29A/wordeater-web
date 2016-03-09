@@ -18,6 +18,3 @@ class ScheduleStatistic(BaseDocument):
         'date': datetime.datetime.now()
     }
 
-    @staticmethod
-    def get_collection():
-        return db.ScheduleStatistic
