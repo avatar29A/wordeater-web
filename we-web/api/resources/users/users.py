@@ -12,3 +12,14 @@ __author__ = 'Glebov Boris'
 
 users_ns = api.namespace(name='Groups', description="Requests for page groups", path=API_PATH)
 
+
+@users_ns.route('/users/auth/', endpoint='users')
+class UserAPI(Resource):
+    def post(self):
+        u"""
+        Return groups by user.
+        :return:
+        """
+        return {
+            'data': '3434'
+    }
