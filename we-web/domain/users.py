@@ -13,14 +13,33 @@ class User(BaseDocument):
             'last_name': unicode
         },
 
-        'sex': IS(*enums.SEX),
         'native_lng': IS(*enums.LANGUAGE),
         'foreign_lng': IS(*enums.LANGUAGE),
-        'create_date': datetime.datetime
+        'create_date': datetime.datetime,
+
+        'advanced': {
+            'birthday': datetime.datetime,
+            'sex': IS(*enums.SEX),
+        },
+
+        'settings': {
+           'is_active': bool,  # Пользователь активирован
+           'activation_code': unicode,
+           'is_reminders_turn': bool,  # Напоминания включены
+           'is_notifications_turn': bool  # Уведомления включены
+        },
+
+        'author': ObjectId
     }
 
     default_values = {
-        'create_date': datetime.datetime.now()
+        'create_date': datetime.datetime.now(),
+        # Advanced
+        'advanced.sex': u'male',
+        # Settings
+        'settings.is_active': False,
+        'settings.is_reminders_turn': True,
+        'settings.is_notifications_turn': True,
     }
 
     indexes = [
@@ -32,4 +51,8 @@ class User(BaseDocument):
     @property
     def cards(self):
         return list(db.Card.find({"user.$id": self.id}))
+
+    @staticmethod
+    def get_collection():
+        return db.User
 

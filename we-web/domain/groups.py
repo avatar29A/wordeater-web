@@ -19,7 +19,8 @@ class Group(BaseDocument):
         'description': unicode,
         'cards_count': int,
         'cards_studying_count': int,
-        'create_date': datetime.datetime
+        'create_date': datetime.datetime,
+        'author': ObjectId
     }
 
     default_values = {
@@ -31,3 +32,7 @@ class Group(BaseDocument):
     @property
     def cards(self):
         return db.Card.find({"group.$id": self.id})
+
+    @staticmethod
+    def get_collection():
+        return db.Group

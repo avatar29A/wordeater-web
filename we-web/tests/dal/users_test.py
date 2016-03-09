@@ -120,4 +120,4 @@ class UsersSignTest(UsersTest):
         s = TokenSerializer(config.SECRET_KEY, expires_in=config.SESSION_EXPIRES)
         token = s.dumps({u'login': expected_login})
 
-        self.assertEqual(expected_login, self.us.verify_auth_token(token))
+        self.assertEqual(expected_login, self.us.verify_auth_token(token, config.SESSION_EXPIRES))

@@ -10,9 +10,14 @@ class ScheduleStatistic(BaseDocument):
     structure = {
         'card': Card,
         'date': datetime.datetime,
-        'type': IS(u'pass', u'done')
+        'type': IS(u'pass', u'done'),
+        'author': ObjectId
     }
 
     default_values = {
         'date': datetime.datetime.now()
     }
+
+    @staticmethod
+    def get_collection():
+        return db.ScheduleStatistic

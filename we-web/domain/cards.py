@@ -23,7 +23,8 @@ class Card(BaseDocument):
         'image_url': unicode,
         'is_studying': bool,
         'is_done': bool,
-        'create_date': datetime.datetime
+        'create_date': datetime.datetime,
+        'author': ObjectId
     }
 
     i18n = ['text', 'context', 'transcription']
@@ -32,3 +33,7 @@ class Card(BaseDocument):
         'is_studying': True,
         'is_done': False
     }
+
+    @staticmethod
+    def get_collection():
+        return db.Card

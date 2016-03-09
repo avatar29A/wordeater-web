@@ -9,5 +9,10 @@ class LoginAudit(BaseDocument):
     structure = {
         'login': unicode,
         'ip': unicode,
-        'stamp': datetime.datetime
+        'stamp': datetime.datetime,
+        'author': ObjectId
     }
+
+    @staticmethod
+    def get_collection():
+        return db.LoginAudit

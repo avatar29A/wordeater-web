@@ -97,14 +97,15 @@ class UserService(BaseService):
 
         return s.dumps({u'login': user[u'login']})
 
-    def verify_auth_token(self, token):
+    def verify_auth_token(self, token, expires_in=None):
         """
         Token verification. Check token by expires and valid.
         :param token: token
+        :param expires_in: token expires
         :return: user's login
         """
 
-        s = TokenSerializer(config.SECRET_KEY)
+        s = TokenSerializer(config.SECRET_KEY, expires_in)
         try:
             data = s.loads(token)
         except SignatureExpired:
