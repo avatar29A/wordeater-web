@@ -5,6 +5,7 @@ from configparser2 import RawConfigParser
 __author__ = 'Glebov Boris'
 
 
+ENVELOPE_DATA = "data"
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 config = RawConfigParser()
