@@ -19,7 +19,7 @@ version = config.get('APPLICATION', 'version')
 
 #
 # API
-API_PATH = '/api'
+API_PATH = '/api/v1'
 API_USER_AGENT = 'Wordeater/1.0'
 
 # MongoDB
