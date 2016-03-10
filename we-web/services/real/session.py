@@ -1,5 +1,7 @@
 # coding=utf-8
 
+import config
+
 from services.base import BaseService
 from services.service_locator import ServiceLocator
 from utils.session_manager import UserSession
@@ -37,6 +39,19 @@ class SessionService(BaseService):
             return None
 
         return UserSession(UserSession.get_current_user())
+
+    def check(self):
+        """
+        Check user is exists in session and security token is valid
+        :return: Boolean
+        """
+
+        us = ServiceLocator.resolve(ServiceLocator.USERS)
+
+        user_session = self.get()
+        user = self.get_user()
+
+        return user is not None and us.verify_auth_token(user_session.token, config.SESSION_EXPIRES)
 
     def get_user(self):
         """

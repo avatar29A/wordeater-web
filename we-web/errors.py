@@ -134,36 +134,28 @@ class SignErrors:
         }
 
     @staticmethod
-    def incorrect_email(fields, as_json=True):
+    def incorrect_email(fields):
         """
         Некорректный email.
         """
 
-        response = create_template_error()
-
-        response['error'] = {
+        return {
             'error_type': u'incorect_email_error',
             'error_msg': u'Введите корректный адрес',
             'fields': fields
         }
 
-        return _prepare_response(as_json, response)
-
     @staticmethod
-    def access_denided(fields, as_json=True):
+    def access_denided(fields):
         """
         Не хватает прав доступа.
         """
 
-        response = create_template_error()
-
-        response['error'] = {
-            'error_type': u'incorect_email_error',
-            'error_msg': u'Доступ запрещен',
+        return {
+            'error_type': u'access_denided',
+            'error_msg': u'Access denided',
             'fields': fields
         }
-
-        return _prepare_response(as_json, response)
 
 
 class ServerErrors:

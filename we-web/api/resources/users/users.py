@@ -15,6 +15,7 @@ from models import user_schema, user_fields, user_input_fields, user_list_fields
 
 from services.service_locator import ServiceLocator
 from services.exceptions import LoginAlreadyExists, EmailAlreadyExists
+from decorators.authenticate import allow_debug_only
 
 from logger import logger
 
@@ -26,6 +27,7 @@ users_ns = api.namespace(name='Users', description="Requests related with users"
 
 @users_ns.route('/users/', endpoint='users/')
 class UsersAPI(Resource):
+    @allow_debug_only
     @api.marshal_with(user_list_fields, envelope=ENVELOPE_DATA, as_list=True)
     def get(self):
         """
@@ -69,11 +71,9 @@ class UserSignInAPI(Resource):
         # Save the user to session
         ss.create(user, token)
 
-        return {
-            u'first_name': user.first_name,
-            u'last_name': user.last_name,
-            u'auth_token': token
-        }
+        user[u'auth_token'] = token
+
+        return user
 
 #
 #
