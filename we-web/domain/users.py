@@ -12,6 +12,7 @@ class User(BaseDocument):
             'first_name': unicode,
             'last_name': unicode
         },
+        'email': unicode,
 
         'native_lng': IS(*enums.LANGUAGE),
         'foreign_lng': IS(*enums.LANGUAGE),
@@ -30,6 +31,8 @@ class User(BaseDocument):
         }
     }
 
+    required_fields = ['login', 'email', 'native_lng']
+
     default_values = {
         'create_date': datetime.datetime.now(),
         # Advanced
@@ -42,7 +45,7 @@ class User(BaseDocument):
 
     indexes = [
         {
-            'fields': ['login'],
+            'fields': ['login', 'email', 'native_lng', 'foreign_lng'],
             'unique': True
         }]
 

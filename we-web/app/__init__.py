@@ -9,7 +9,7 @@ from utils.wordeater_api import WordeaterApi
 from flask.ext.restplus import apidoc
 
 from services.service_locator import ServiceLocator
-from services.real import cards, users, groups
+from services.real import cards, users, groups, session
 
 from api.common.auth import add_cors_header
 
@@ -27,6 +27,7 @@ app.after_request(add_cors_header)
 ServiceLocator.register(ServiceLocator.USERS, users.UserService())
 ServiceLocator.register(ServiceLocator.CARDS, cards.CardService())
 ServiceLocator.register(ServiceLocator.GROUPS, groups.GroupService())
+ServiceLocator.register(ServiceLocator.SESSIONS, session.SessionService())
 
 
 @app.route('/')
@@ -39,8 +40,3 @@ def swagger_ui():
     return apidoc.ui_for(api)
 
 api = WordeaterApi(app, version='1', title='', ui=False)
-
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template("404.html"), 404

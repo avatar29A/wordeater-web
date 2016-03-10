@@ -3,7 +3,7 @@
 import unittest
 from tests.dal.dal_test_base import db, BaseTest
 from app import app
-import api.resources.entity
+import api.resources.entities.entity
 
 __author__ = 'Glebov Boris'
 

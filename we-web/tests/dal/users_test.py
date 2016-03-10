@@ -16,7 +16,7 @@ class UsersTest(BaseTest):
 
     def _generate_users(self, amount):
         for i in range(0, amount):
-            self.us.create(u'user{0}'.format(i+1))
+            self.us.create(u'user{0}'.format(i+1), u'user{0}@example.com'.format(i+1))
 
 
 class UsersCreateTest(UsersTest):
@@ -30,15 +30,15 @@ class UsersCreateTest(UsersTest):
         :return: throw AssertError exception
         """
 
-        self.assertRaises(AssertionError, self.us.create, None)
-        self.assertRaises(AssertionError, self.us.create, u'')
+        self.assertRaises(AssertionError, self.us.create, None, None)
+        self.assertRaises(AssertionError, self.us.create, u'', u'')
 
     def test_user_create(self):
         """
 
         :return:
         """
-        user1 = self.us.create(u'user1')
+        user1 = self.us.create(u'user1', u'warlock@example.ru')
 
         self.assertIsNotNone(user1, u"An user don't was created")
         self.assertEqual(user1.login, u'user1')
@@ -74,7 +74,8 @@ class UsersSingleTest(UsersTest):
         """
 
         login = u'user_0000100'
-        self.us.create(login)
+        email = u'warlock@example.ru'
+        self.us.create(login, email)
 
         self.assertIsNotNone(self.us.single(login))
         self.assertEqual(self.us.single(login).login, login)

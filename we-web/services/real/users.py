@@ -14,6 +14,7 @@ class UserService(BaseService):
     # Public interfaces
 
     def create(self, login,
+               email,
                native=u'ru',
                foreign=u'en',
                first_name=u'anonymous',
@@ -21,7 +22,8 @@ class UserService(BaseService):
                sex=u'male'):
         """
         Create a new user
-        :param login:
+        :param login: Username. It's field needs for sign in.
+        :param email: User's email. It's field needs for send email notifications for user
         :param native: Native user language
         :param foreign: Foreign language for user
         :param first_name: -
@@ -40,6 +42,7 @@ class UserService(BaseService):
         user = self.db.User()
 
         user.login = login
+        user.email = email
         user.name.last_name = first_name
         user.name.first_name = last_name
 
@@ -84,7 +87,7 @@ class UserService(BaseService):
         """
         assert login
 
-        return self.create(login)
+        return self.create(login, u'')
 
     def make_auth_token(self, user):
         """

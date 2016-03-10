@@ -2,8 +2,8 @@
 __author__ = 'Warlock'
 
 from app import app
-import api.resources.groups
-import api.resources.entity
+import api.resources.groups.groups
+import api.resources.entities.entity
 import api.resources.users.users
 
 if __name__ == '__main__':

@@ -8,8 +8,13 @@ class UserSession:
         self.user = user
 
     @staticmethod
-    def create():
-        return UserSession(UserSession.get_current_user())
+    def create(user):
+        """
+        Create session manager from a dto session user
+        :param user: dto session user
+        :return: UserSession instance
+        """
+        return UserSession(user)
 
     def get(self):
         return self.user

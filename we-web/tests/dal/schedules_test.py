@@ -17,7 +17,7 @@ class ScheduleTest(BaseTest):
         self.ss = ServiceLocator.resolve(ServiceLocator.SCHEDULES)
 
     def _create_test_user_and_card(self):
-        user = self.us.create(u'user')
+        user = self.us.create(u'user', u'warlock@example.ru')
         group = self.gs.pick_up(user)
         card = self.cs.create(user, group, u'dog', u'собака')
 

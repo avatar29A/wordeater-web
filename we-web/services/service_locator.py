@@ -9,6 +9,8 @@ class ServiceLocator(object):
     SCHEDULES = "schedules"
     LOGIN_AUDIT = "login_audit"
 
+    SESSIONS = "sessions"
+
     DB = "db"
 
     __service_factory = {}
