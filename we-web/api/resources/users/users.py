@@ -15,6 +15,8 @@ from models import CHECK_PARAMS, \
     user_sigin_response_fields, check_user_fields
 
 from services.service_locator import ServiceLocator
+from services.exceptions import LoginAlreadyExists, EmailAlreadyExists
+
 from logger import logger
 
 
@@ -38,14 +40,14 @@ class UserSignInAPI(Resource):
 
         v = Validator(user_signin_schema)
 
-        args = v.validate(request.get_json())
+        args = v.validated(request.get_json())
         if args is None:
             return ApiResponse(status=4001, errors=v.errors)
 
         login = args.get(u'login')
         password = args.get(u'password')
 
-        user = us.sing_in(login, password)
+        user = us.sign_in(login, password)
         if user is None:
             return ApiResponse(status=4001, errors=errors.SignErrors.login_or_password_wrong(['login', 'password']))
 
@@ -70,18 +72,46 @@ class UserSignUpAPI(Resource):
     @api.doc(body=user_input_fields)
     @api.marshal_with(user_fields, envelope=ENVELOPE_DATA, code=201)
     def post(self):
+        us = ServiceLocator.resolve(ServiceLocator.USERS)
+        ss = ServiceLocator.resolve(ServiceLocator.SESSIONS)
+
         v = Validator(user_schema)
         args = v.validated(request.get_json())
 
         if args is None:
             return ApiResponse(status=4001, errors=v.errors)
 
-        return {
-            u'id': u'123-34-343',
-            u'username': u'Warlock',
-            u'email': u'Example',
-            u'auth_token': u'34llsadsf'
-        }
+        login = args.get('login')
+        email = args.get('email')
+        password = args.get('password')
+
+        first_name = args.get('first_name')
+        last_name = args.get('last_name')
+
+        try:
+            us.check(login, email)
+
+            user = us.create(login, email, password, first_name=first_name, last_name=last_name)
+
+            # Create session
+            token = us.make_auth_token(user)
+            ss.create(user, token)
+
+            user['auth_token'] = token
+
+            return user
+        except LoginAlreadyExists as ex:
+            logger.error(u'UserService.signup({0})'.format(login), ex)
+
+            return ApiResponse(status=4001, errors=errors.SignErrors.user_already_exists(['login']))
+        except EmailAlreadyExists as ex:
+            logger.error(u'UserService.signup({0})'.format(email), ex)
+
+            return ApiResponse(status=4001, errors=errors.SignErrors.user_already_exists(['email']))
+        except Exception as ex:
+            logger.error(u'UserSignUpAPI -> us.create({0})'.format(login), ex)
+
+            return ApiResponse(status=500, errors=errors.ServerErrors.internal_server_error([]))
 
 #
 #
@@ -93,7 +123,28 @@ class UsersCheckAPI(Resource):
     @api.doc(params=CHECK_PARAMS)
     @api.marshal_with(check_user_fields, envelope=ENVELOPE_DATA, as_list=False)
     def get(self):
-        return {
-            'username': True,
-            'email': None
-        }
+        us = ServiceLocator.resolve(ServiceLocator.USERS)
+
+        v = Validator(user_schema)
+        args = v.validated(request.get_json())
+
+        if args is None:
+            return ApiResponse(status=4001, errors=v.errors)
+
+        try:
+            login = args.get('login', None)
+            email = args.get('email', None)
+
+            login_result = login and us.check_login(login)
+            email_result = email and us.check_email(email)
+
+            return {
+                'login': login_result,
+                'email_result': email_result
+            }
+
+        except Exception:
+            return {
+                'login': None,
+                'email': None
+            }

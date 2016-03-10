@@ -8,6 +8,8 @@ from werkzeug.contrib.cache import MemcachedCache
 from utils.wordeater_api import WordeaterApi
 from flask.ext.restplus import apidoc
 
+from domain.model import db
+
 from services.service_locator import ServiceLocator
 from services.real import cards, users, groups, session
 
@@ -28,6 +30,7 @@ ServiceLocator.register(ServiceLocator.USERS, users.UserService())
 ServiceLocator.register(ServiceLocator.CARDS, cards.CardService())
 ServiceLocator.register(ServiceLocator.GROUPS, groups.GroupService())
 ServiceLocator.register(ServiceLocator.SESSIONS, session.SessionService())
+ServiceLocator.register(ServiceLocator.DB, db)
 
 
 @app.route('/')

@@ -2,6 +2,8 @@
 import config
 
 from services.base import BaseService
+from services.exceptions import LoginAlreadyExists, EmailAlreadyExists
+
 from logger import logger
 from itsdangerous import TimedJSONWebSignatureSerializer as TokenSerializer, BadSignature, SignatureExpired
 
@@ -35,11 +37,12 @@ class UserService(BaseService):
         """
 
         assert login, u'Login is required parameter'
+        assert email, u'Email is required parameter'
+        assert password, u'Password is required parameter'
 
         user = self.single(login)
-
         if user is not None:
-            return user
+            return None
 
         user = self.db.User()
 
@@ -47,8 +50,8 @@ class UserService(BaseService):
         user.email = email
         user.password = self.get_hash(password, email)
 
-        user.name.last_name = first_name
-        user.name.first_name = last_name
+        user.last_name = first_name
+        user.first_name = last_name
 
         user.sex = sex
         user.native_lng = native
@@ -62,6 +65,56 @@ class UserService(BaseService):
         except Exception as ex:
             logger.error(u"UserService.create", ex)
             return None
+
+    def check(self, login=None, email=None):
+        """
+        Check login and email on uniques
+        :param login: user's login
+        :param email: user's email
+        :return: Boolean | LoginAlreadyExists | EmailAlreadyExists
+        """
+
+        if login:
+            user = self.db.User.find_one({'login': login})
+            if user is not None:
+                raise LoginAlreadyExists()
+
+        if email:
+            user = self.db.User.find_one({'email': email})
+            if user is not None:
+                raise EmailAlreadyExists()
+
+        return True
+
+    def check_login(self, login):
+        """
+        Check user's login on unique
+        :param login: login
+        :return: Boolean | Exception
+        """
+
+        try:
+            return self.check(login=logger)
+        except LoginAlreadyExists:
+            return False
+        except Exception as ex:
+            logger.error(u'UserService.check_login({0})'.format(login), ex)
+            raise ex
+
+    def check_email(self, email):
+        """
+        Check user's email on unique
+        :param email: email
+        :return: Boolean | Exception
+        """
+
+        try:
+            return self.check(email=email)
+        except EmailAlreadyExists:
+            return False
+        except Exception as ex:
+            logger.error(u'UserService.check_email({0})'.format(email), ex)
+            raise ex
 
     def single(self, login):
         """

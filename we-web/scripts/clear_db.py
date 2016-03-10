@@ -1,6 +1,7 @@
 # coding=utf-8
 __author__ = 'Warlock'
 
+import config
 from flask.ext.script import Command
 from domain.model import db
 
@@ -17,9 +18,6 @@ class ClearDatabase(Command):
     def run(self):
         print u'*** Run cleaning database\n'
 
-        self._clear(db.User)
-        self._clear(db.Group)
-        self._clear(db.Card)
-        self._clear(db.LoginAudit)
+        db.drop_database(config.DATABASE['db_name'])
 
         print u"\ndone"

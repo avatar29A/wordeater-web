@@ -95,7 +95,7 @@ class SignErrors:
         return _prepare_response(as_json, response)
 
     @staticmethod
-    def user_already_exists(fields, as_json=True):
+    def user_already_exists(fields):
         """
         Пользователь с таким email уже существует
         """
@@ -165,47 +165,35 @@ class ServerErrors:
     """
 
     @staticmethod
-    def internal_server_error(fields, as_json=True):
+    def internal_server_error(fields):
         """
         Creates response for inner server error
         """
-        resposne = create_template_error()
-
-        resposne['error'] = {
+        return {
             'error_type': u'internal_server_error',
             'error_msg': u'На сервере произошла ошибка',
             'fields': fields
         }
 
-        return _prepare_response(as_json, resposne)
-
     @staticmethod
-    def database_server_error(fields, as_json=True):
+    def database_server_error(fields):
         """
         Creates response for errors with database
         """
-        response = create_template_error()
-
-        response['error'] = {
+        return {
             'error_type': u'database_server_error',
             'error_msg': u'База данных не доступна',
             'fields': fields
         }
 
-        return _prepare_response(as_json, response)
-
     @staticmethod
-    def abandon_user_session(fields, as_json=True):
+    def abandon_user_session(fields):
         """
         User session is abandon
         """
 
-        response = create_template_error()
-
-        response['error'] = {
+        return {
             'error_type': u'abandon_user_session',
             'error_msg': u'Сессия пользователя истекла',
             'fields': fields
         }
-
-        return _prepare_response(as_json, response)

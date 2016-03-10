@@ -2,8 +2,7 @@
 __author__ = 'Warlock'
 
 from flask.ext.script import Command
-from services.users import UserService
-from domain.model import db
+from services.real.users import UserService
 
 
 class CreateUser(Command):
@@ -14,8 +13,8 @@ class CreateUser(Command):
     def run(self):
         print u"Run create user with name 'warlock'"
 
-        us = UserService(db)
-        user = us.create(u'warlock', u'ru', u'en', u'Boris', u'Glebov')
+        us = UserService()
+        user = us.create(u'warlock', u'avatar29A@gmail.com', u'12345', u'ru', u'en', u'Boris', u'Glebov')
 
         print u'User: {0}'.format(user)
 

@@ -8,15 +8,15 @@ class User(BaseDocument):
 
     structure = {
         'login': unicode,
-        'name': {
-            'first_name': unicode,
-            'last_name': unicode
-        },
         'password': unicode,
         'email': unicode,
 
+        'first_name': unicode,
+        'last_name': unicode,
+
         'native_lng': IS(*enums.LANGUAGE),
         'foreign_lng': IS(*enums.LANGUAGE),
+
         'create_date': datetime.datetime,
 
         'advanced': {
