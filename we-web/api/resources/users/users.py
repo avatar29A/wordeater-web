@@ -75,10 +75,10 @@ class UserSignInAPI(Resource):
             u'auth_token': token
         }
 
-
 #
 #
 # SIGNUP API
+
 
 @users_ns.route('/user/signup/', endpoint='user/signup/')
 class UserSignUpAPI(Resource):

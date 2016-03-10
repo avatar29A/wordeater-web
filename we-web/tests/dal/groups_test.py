@@ -15,7 +15,10 @@ class GroupsTest(BaseTest):
 
     @property
     def user1(self):
-        user = self.us.create(u'user1', u'warlock@example.ru', u'qwerty')
+        user = self.us.single(u'user1')
+
+        if not user:
+            user = self.us.create(u'user1', u'warlock@example.ru', u'qwerty')
         return user
 
     def _generate_groups(self, user, amount):
@@ -55,6 +58,8 @@ class GroupSingleTest(GroupsTest):
         """
         It have to throw exception if no pass arguments.
         """
+        self.clear_db()
+
         self.assertRaises(AssertionError, self.gs.single)
 
     def test_get_group_by_id(self):
@@ -62,6 +67,8 @@ class GroupSingleTest(GroupsTest):
         Get group by ID
         :return:
         """
+        self.clear_db()
+
         group = self.gs.create(self.user1, u'Group3')
 
         find_group = self.gs.single(group.id)
@@ -74,6 +81,7 @@ class GroupSingleTest(GroupsTest):
         Get group by Name. It must return None:
         :return: None
         """
+        self.clear_db()
 
         find_group = self.gs.single(user=self.user1, name=u'Group2')
         self.assertIsNone(find_group, u'It must return None')
@@ -83,6 +91,8 @@ class GroupSingleTest(GroupsTest):
         Get group by Name. It must return Group:
         :return: Group entity
         """
+        self.clear_db()
+
         self.gs.create(self.user1, u'Group3')
 
         find_group = self.gs.single(user=self.user1, name=u'Group3')
@@ -93,6 +103,7 @@ class GroupSingleTest(GroupsTest):
         Returns a group where amount cards less than config.CARDS_IN_GROUP_AMOUNT
         :return: Group
         """
+        self.clear_db()
 
         group = self.gs.single(None, self.user1)
 
@@ -158,6 +169,8 @@ class GroupRenameTest(GroupsTest):
         Try rename group
         :return: Group
         """
+
+        self.clear_db()
 
         old_name = u'group1'
         new_name = u'group2'
