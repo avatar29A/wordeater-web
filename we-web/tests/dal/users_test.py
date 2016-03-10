@@ -16,7 +16,7 @@ class UsersTest(BaseTest):
 
     def _generate_users(self, amount):
         for i in range(0, amount):
-            self.us.create(u'user{0}'.format(i+1), u'user{0}@example.com'.format(i+1))
+            self.us.create(u'user{0}'.format(i+1), u'user{0}@example.com'.format(i+1), u'qwerty')
 
 
 class UsersCreateTest(UsersTest):
@@ -30,15 +30,15 @@ class UsersCreateTest(UsersTest):
         :return: throw AssertError exception
         """
 
-        self.assertRaises(AssertionError, self.us.create, None, None)
-        self.assertRaises(AssertionError, self.us.create, u'', u'')
+        self.assertRaises(AssertionError, self.us.create, None, None, None)
+        self.assertRaises(AssertionError, self.us.create, u'', u'', u'')
 
     def test_user_create(self):
         """
 
         :return:
         """
-        user1 = self.us.create(u'user1', u'warlock@example.ru')
+        user1 = self.us.create(u'user1', u'warlock@example.ru', u'qwerty')
 
         self.assertIsNotNone(user1, u"An user don't was created")
         self.assertEqual(user1.login, u'user1')
@@ -75,7 +75,9 @@ class UsersSingleTest(UsersTest):
 
         login = u'user_0000100'
         email = u'warlock@example.ru'
-        self.us.create(login, email)
+        password = u'qwerty'
+
+        self.us.create(login, email, password)
 
         self.assertIsNotNone(self.us.single(login))
         self.assertEqual(self.us.single(login).login, login)
@@ -98,12 +100,17 @@ class UsersSignTest(UsersTest):
         """
 
         login = u'warlock'
-        user = self.us.sign_in(login)
+        password = u'qwerty'
+        email = u'warlock@bk.ru'
+
+        self.us.create(login, email, password)
+
+        user = self.us.sign_in(login, password)
 
         self.assertIsNotNone(user)
 
     def test_make_token_auth(self):
-        user = self.us.sign_in(u'user1')
+        user = self.us.create(u'warlock', u'warlock@example.ru', u'qwerty')
 
         s = TokenSerializer(config.SECRET_KEY, expires_in=config.SESSION_EXPIRES)
         token = s.dumps({u'login': user[u'login']})

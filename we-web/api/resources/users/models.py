@@ -6,17 +6,19 @@ from utils.cerberus_utils import get_input_model_from_cerberus_schema
 
 
 user_schema = {
-    'username': {'type': 'string', 'required': True, 'nullable': False, 'empty': False, 'validator': validate_user_login},
+    'login': {'type': 'string', 'required': True, 'nullable': False, 'empty': False, 'validator': validate_user_login},
     'password': {'type': 'string', 'required': True, 'nullable': False, 'empty': False},
     'email': {'type': 'string', 'required': True, 'nullable': False, 'empty': False}
 }
 
 
 user_fields = api.model(u'User', {
-    u'id': fields.String,
     u'auth_token': fields.String,
-    u'username': fields.String,
-    u'email': fields.String
+    u'login': fields.String,
+    u'first_name': fields.String,
+    u'last_name': fields.String,
+    u'foreign_lng': fields.String,
+    u'native_lng': fields.String
 })
 
 user_input_fields = get_input_model_from_cerberus_schema(user_schema, 'UserInput')
@@ -24,12 +26,12 @@ user_input_fields = get_input_model_from_cerberus_schema(user_schema, 'UserInput
 #
 # Sign In
 user_signin_schema = {
-    'username': {'type': 'string', 'required': True, 'nullable': False, 'empty': False, 'validator': validate_user_login},
+    'login': {'type': 'string', 'required': True, 'nullable': False, 'empty': False, 'validator': validate_user_login},
     'password': {'type': 'string', 'required': True, 'nullable': False, 'empty': False},
 }
 
 user_signin_fields = api.model(u'UserSigIn', {
-    u'username': fields.String,
+    u'login': fields.String,
     u'password': fields.String
 })
 
@@ -39,11 +41,11 @@ user_signin_fields = api.model(u'UserSigIn', {
 # CHECK API
 
 CHECK_PARAMS = {
-    'username': 'User name',
-    'email': "User's email",
+    u'login': u'User name',
+    u'email': u"User's email",
 }
 
 check_user_fields = api.model(u'CheckUserModel', {
-    u'username': fields.Boolean,
+    u'login': fields.Boolean,
     u'email': fields.Boolean
 })

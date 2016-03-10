@@ -11,6 +11,8 @@ from app import api
 from models import CHECK_PARAMS, \
     user_schema, user_fields, user_input_fields, user_signin_fields, user_signin_schema,\
     check_user_fields
+
+from services.service_locator import ServiceLocator
 from logger import logger
 
 
@@ -34,6 +36,12 @@ class UserSignInAPI(Resource):
 
         if args is None:
             return ApiResponse(status=4001, errors=v.errors)
+
+        login = args.get(u'login')
+        password = args.get(u'password')
+
+        us = ServiceLocator.resolve(ServiceLocator.USERS)
+
 
         return {
             u'id': u'123-34-343',

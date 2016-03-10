@@ -15,6 +15,7 @@ class UserService(BaseService):
 
     def create(self, login,
                email,
+               password,
                native=u'ru',
                foreign=u'en',
                first_name=u'anonymous',
@@ -24,6 +25,7 @@ class UserService(BaseService):
         Create a new user
         :param login: Username. It's field needs for sign in.
         :param email: User's email. It's field needs for send email notifications for user
+        :param password: User's password.
         :param native: Native user language
         :param foreign: Foreign language for user
         :param first_name: -
@@ -43,6 +45,8 @@ class UserService(BaseService):
 
         user.login = login
         user.email = email
+        user.password = self.get_hash(password, email)
+
         user.name.last_name = first_name
         user.name.first_name = last_name
 
@@ -63,6 +67,7 @@ class UserService(BaseService):
         """
         Return user from User collection
         :param login: user's login
+        :param password: user's password
         :return: User entity
         """
 
@@ -70,24 +75,32 @@ class UserService(BaseService):
 
         return self.db.User.find_one({'login': login})
 
+    def sign_in(self, login, password):
+        """
+        Authorization in system
+        :param login: User's login
+        :param password: User's password
+        :return: Token
+        """
+
+        user = self.single(login)
+        if user is None:
+            return None
+
+        hash_password = self.get_hash(password, user.email)
+        if hash_password == user.password:
+            return self.make_auth_token(user)
+        else:
+            return None
+
     def exists(self, login):
         """
         Check user exits in database
         :param login: user login
+        :param password: user password
         :return: true or false
         """
         return self.single(login) is not None
-
-    def sign_in(self, login):
-        """
-        Authorization in system.
-
-        Firs stage: Required only user login. If user is doesn't exist, he will be created.
-        :return:
-        """
-        assert login
-
-        return self.create(login, u'')
 
     def make_auth_token(self, user):
         """
@@ -116,3 +129,17 @@ class UserService(BaseService):
         except BadSignature:
             return None  # invalid token
         return data[u'login']
+
+    @staticmethod
+    def get_hash(password, salt):
+        """
+        Получаем хэш с солью от пароля
+        """
+
+        import hashlib
+
+        h = hashlib.sha256()
+        data = u'{0}+{1}'.format(password, salt.lower())
+        h.update(data.encode('utf-8'))
+
+        return u'{0}'.format(h.hexdigest())

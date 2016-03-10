@@ -15,7 +15,7 @@ class GroupsTest(BaseTest):
 
     @property
     def user1(self):
-        user = self.us.create(u'user1', u'warlock@example.ru')
+        user = self.us.create(u'user1', u'warlock@example.ru', u'qwerty')
         return user
 
     def _generate_groups(self, user, amount):

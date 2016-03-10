@@ -12,6 +12,7 @@ class User(BaseDocument):
             'first_name': unicode,
             'last_name': unicode
         },
+        'password': unicode,
         'email': unicode,
 
         'native_lng': IS(*enums.LANGUAGE),
@@ -45,7 +46,7 @@ class User(BaseDocument):
 
     indexes = [
         {
-            'fields': ['login', 'email', 'native_lng', 'foreign_lng'],
+            'fields': ['login', 'email', 'password', 'native_lng', 'foreign_lng'],
             'unique': True
         }]
 

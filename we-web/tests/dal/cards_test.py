@@ -39,7 +39,7 @@ class CardsListTest(CardsTest):
 
         self.clear_db()
 
-        user = self.us.create(u'warlock', u'warlock@example.ru')
+        user = self.us.create(u'warlock', u'warlock@example.ru', u'qwerty')
         self.assertEqual(self.cs.list(user), [])
 
 
@@ -63,7 +63,7 @@ class CardsCreateTest(CardsTest):
         """
         self.clear_db()
 
-        user = self.us.create(u'warlock', u'warlock@example.ru')
+        user = self.us.create(u'warlock', u'warlock@example.ru', u'qwerty')
         group = self.gs.pick_up(user)
 
         card = self.cs.create(user, group, u'dog', u'native')
@@ -77,7 +77,7 @@ class CardsCreateTest(CardsTest):
 
         self.clear_db()
 
-        user = self.us.create(u'warlock', u'warlock@example.ru')
+        user = self.us.create(u'warlock', u'warlock@example.ru', u'qwerty')
 
         cards_amount = 100
 
@@ -109,7 +109,7 @@ class CardsExtractText(CardsTest):
         self.assertEqual(u'dog', foreign)
 
     def _create_card(self, foreign, native):
-        user = self.us.create(u'warlock', u'warlock@example.ru')
+        user = self.us.create(u'warlock', u'warlock@example.ru', u'qwerty')
         group = self.gs.pick_up(user)
 
         card = self.cs.create(user, group, foreign, native)
