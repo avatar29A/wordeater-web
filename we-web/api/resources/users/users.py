@@ -45,7 +45,7 @@ class UsersAPI(Resource):
 # SIGNIN API
 
 
-@users_ns.route('/user/sigin/', endpoint='user/sigin/')
+@users_ns.route('/user/signin/', endpoint='user/signin/')
 class UserSignInAPI(Resource):
     @api.doc(body=user_signin_fields)
     @api.marshal_with(user_sigin_response_fields, envelope=ENVELOPE_DATA, code=200)

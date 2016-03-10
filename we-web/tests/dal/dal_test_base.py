@@ -12,6 +12,7 @@ from services.real.schedules import ScheduleService
 
 
 config.DATABASE['db_name'] = 'we_test'
+config.IS_DEBUG = True
 
 from domain.model import db
 
