@@ -10,9 +10,8 @@ from config import API_PATH, ENVELOPE_DATA
 from utils.wordeater_api import ApiResponse
 from app import api
 
-from models import CHECK_PARAMS, \
-    user_schema, user_fields, user_input_fields, user_signin_fields, user_signin_schema,\
-    user_sigin_response_fields, check_user_fields
+from models import user_schema, user_fields, user_input_fields, user_list_fields, user_signin_fields, user_signin_schema,\
+    user_sigin_response_fields, check_user_fields, check_params_schema, check_user_input_fields
 
 from services.service_locator import ServiceLocator
 from services.exceptions import LoginAlreadyExists, EmailAlreadyExists
@@ -24,6 +23,20 @@ __author__ = 'Glebov Boris'
 
 users_ns = api.namespace(name='Users', description="Requests related with users", path=API_PATH)
 
+
+@users_ns.route('/users/', endpoint='users/')
+class UsersAPI(Resource):
+    @api.marshal_with(user_list_fields, envelope=ENVELOPE_DATA, as_list=True)
+    def get(self):
+        """
+        Returns list of users
+        :return: list of users
+        """
+
+        us = ServiceLocator.resolve(ServiceLocator.USERS)
+        users = list(us.list())
+
+        return users
 
 #
 #
@@ -120,12 +133,12 @@ class UserSignUpAPI(Resource):
 
 @users_ns.route('/users/check/', endpoint='users/check/')
 class UsersCheckAPI(Resource):
-    @api.doc(params=CHECK_PARAMS)
+    @api.doc(body=check_user_input_fields)
     @api.marshal_with(check_user_fields, envelope=ENVELOPE_DATA, as_list=False)
-    def get(self):
+    def post(self):
         us = ServiceLocator.resolve(ServiceLocator.USERS)
 
-        v = Validator(user_schema)
+        v = Validator(check_params_schema)
         args = v.validated(request.get_json())
 
         if args is None:
@@ -140,7 +153,7 @@ class UsersCheckAPI(Resource):
 
             return {
                 'login': login_result,
-                'email_result': email_result
+                'email': email_result
             }
 
         except Exception:

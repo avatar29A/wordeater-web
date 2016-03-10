@@ -66,6 +66,14 @@ class UserService(BaseService):
             logger.error(u"UserService.create", ex)
             return None
 
+    def list(self):
+        """
+        Returns list of user entities
+        :return: list of user entities
+        """
+
+        return self.db.User.find()
+
     def check(self, login=None, email=None):
         """
         Check login and email on uniques
@@ -94,7 +102,7 @@ class UserService(BaseService):
         """
 
         try:
-            return self.check(login=logger)
+            return self.check(login=login)
         except LoginAlreadyExists:
             return False
         except Exception as ex:

@@ -23,6 +23,17 @@ user_fields = api.model(u'User', {
     u'native_lng': fields.String
 })
 
+user_list_fields = api.model(u'UserList', {
+    u'id': fields.String,
+    u'email': fields.String,
+    u'password': fields.String,
+    u'login': fields.String,
+    u'first_name': fields.String,
+    u'last_name': fields.String,
+    u'foreign_lng': fields.String,
+    u'native_lng': fields.String
+})
+
 
 user_input_fields = get_input_model_from_cerberus_schema(user_schema, 'UserInput')
 
@@ -51,10 +62,15 @@ user_signin_fields = api.model(u'UserSigIn', {
 #
 # CHECK API
 
-CHECK_PARAMS = {
-    u'login': u'User name',
-    u'email': u"User's email",
+check_params_schema = {
+    u'login': {'type': 'string', 'required': False, 'nullable': False, 'empty': False},
+    u'email': {'type': 'string', 'required': False, 'nullable': False, 'empty': False},
 }
+
+check_user_input_fields = api.model(u'CheckUserInputModel', {
+    u'login': fields.String,
+    u'email': fields.String
+})
 
 check_user_fields = api.model(u'CheckUserModel', {
     u'login': fields.Boolean,
