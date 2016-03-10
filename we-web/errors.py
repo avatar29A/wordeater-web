@@ -21,20 +21,16 @@ def create_template_error():
 class CommonErrors:
 
     @staticmethod
-    def required_fields_is_empty(fields, as_json=True):
+    def required_fields_is_empty(fields):
         """
         Пользователь не заполнил все обязательные поля
         """
 
-        response = create_template_error()
-
-        response['error'] = {
+        return {
             'error_type': u'required_fields_is_empty_error',
             'error_msg': u'Заполните все обязательные поля',
             'fields': fields
         }
-
-        return _prepare_response(as_json, response)
 
 
 class SignErrors:
@@ -53,46 +49,38 @@ class SignErrors:
                 'fields': fields}
 
     @staticmethod
-    def password_wrong(fields, as_json=True):
+    def password_wrong(fields):
         """
         Ответ на ошибку не верный пароль
         """
-        response = create_template_error()
-        response['error'] = {'error_type': u'password_wrong_error',
+
+        return {'error_type': u'password_wrong_error',
                              'error_msg': u'Неправильный пароль',
                              'fields': fields}
 
-        return _prepare_response(as_json, response)
-
     @staticmethod
-    def password_does_not_match(fields, as_json=True):
+    def password_does_not_match(fields):
         """
         Ответ на ошибку пароль не совпадает
         """
-        response = create_template_error()
 
-        response['error'] = {
+        return {
             'error_type': u'password_does_not_match_error',
             'error_msg': u'Пароли не совпадают',
             'fields': fields
         }
 
-        return _prepare_response(as_json, response)
-
     @staticmethod
-    def account_not_activated(fields, as_json=True):
+    def account_not_activated(fields):
         """
         Аккаунт пользователя не активирован
         """
-        response = create_template_error()
 
-        response['error'] = {
+        return {
             'error_type': u'account_not_activated',
             'error_msg': u'Ваш аккаунт не активирован',
             'fields': fields
         }
-
-        return _prepare_response(as_json, response)
 
     @staticmethod
     def user_already_exists(fields):
@@ -100,31 +88,23 @@ class SignErrors:
         Пользователь с таким email уже существует
         """
 
-        response = create_template_error()
-
-        response['error'] = {
+        return {
             'error_type': u'user_already_exists_error',
             'error_msg': u'Пользователь с такой эл. почтой уже зарегистрирован',
             'fields': fields
         }
 
-        return _prepare_response(as_json, response)
-
     @staticmethod
-    def required_fields_is_empty(fields, as_json=True):
+    def required_fields_is_empty(fields):
         """
         Пользователь не заполнил все обязательные поля
         """
 
-        response = create_template_error()
-
-        response['error'] = {
+        return {
             'error_type': u'required_fields_is_empty_error',
             'error_msg': u'Заполните все обязательные поля',
             'fields': fields
         }
-
-        return _prepare_response(as_json, response)
 
     @staticmethod
     def incorrect_email(fields, as_json=True):
