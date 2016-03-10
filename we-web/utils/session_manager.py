@@ -28,6 +28,10 @@ class UserSession:
         return self.user['login']
 
     @property
+    def token(self):
+        return self.user['token']
+
+    @property
     def email(self):
         return self.user['email']
 

@@ -12,7 +12,7 @@ class SessionService(BaseService):
     #
     # Public methods
 
-    def create(self, user):
+    def create(self, user, token):
         """
         Create DTO for Session storage and adds it to Session.
         :param user: User entity from DB
@@ -21,7 +21,8 @@ class SessionService(BaseService):
 
         session['user'] = {
             'id': str(user.id),
-            'login': user.login
+            'login': user.login,
+            'token': token
         }
 
         return UserSession.create(session['user'])

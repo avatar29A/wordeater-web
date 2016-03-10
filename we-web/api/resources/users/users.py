@@ -1,5 +1,7 @@
 # coding=utf-8
 
+import errors
+
 from flask.ext.restplus import Resource
 from flask import session, request
 from cerberus import Validator
@@ -10,7 +12,7 @@ from app import api
 
 from models import CHECK_PARAMS, \
     user_schema, user_fields, user_input_fields, user_signin_fields, user_signin_schema,\
-    check_user_fields
+    user_sigin_response_fields, check_user_fields
 
 from services.service_locator import ServiceLocator
 from logger import logger
@@ -29,25 +31,33 @@ users_ns = api.namespace(name='Users', description="Requests related with users"
 @users_ns.route('/user/sigin/', endpoint='user/sigin/')
 class UserSignInAPI(Resource):
     @api.doc(body=user_signin_fields)
-    @api.marshal_with(user_fields, envelope=ENVELOPE_DATA, code=200)
+    @api.marshal_with(user_sigin_response_fields, envelope=ENVELOPE_DATA, code=200)
     def post(self):
-        v = Validator(user_signin_schema)
-        args = v.validate(request.get_json())
+        us = ServiceLocator.resolve(ServiceLocator.USERS)
+        ss = ServiceLocator.resolve(ServiceLocator.SESSIONS)
 
+        v = Validator(user_signin_schema)
+
+        args = v.validate(request.get_json())
         if args is None:
             return ApiResponse(status=4001, errors=v.errors)
 
         login = args.get(u'login')
         password = args.get(u'password')
 
-        us = ServiceLocator.resolve(ServiceLocator.USERS)
+        user = us.sing_in(login, password)
+        if user is None:
+            return ApiResponse(status=4001, errors=errors.SignErrors.login_or_password_wrong(['login', 'password']))
 
+        token = us.make_auth_token(user)
+
+        # Save the user to session
+        ss.create(user, token)
 
         return {
-            u'id': u'123-34-343',
-            u'username': u'Warlock',
-            u'email': u'Example',
-            u'auth_token': u'34llsadsf'
+            u'first_name': user.name['first_name'],
+            u'last_name': user.name['last_name'],
+            u'auth_token': token
         }
 
 

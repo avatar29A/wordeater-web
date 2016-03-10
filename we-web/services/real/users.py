@@ -88,10 +88,7 @@ class UserService(BaseService):
             return None
 
         hash_password = self.get_hash(password, user.email)
-        if hash_password == user.password:
-            return self.make_auth_token(user)
-        else:
-            return None
+        return user if hash_password == user.password else None
 
     def exists(self, login):
         """

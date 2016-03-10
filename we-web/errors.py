@@ -43,16 +43,14 @@ class SignErrors:
     """
 
     @staticmethod
-    def login_or_password_wrong(fields, as_json=False):
+    def login_or_password_wrong(fields):
         """
         Ответ на ошибку при неверно введенем логине и пароле
         """
-        response = create_template_error()
-        response['error'] = {'error_type': u'login_or_password_wrong_error',
-                             'error_msg': u'Неправильный логин или пароль',
-                             'fields': fields}
 
-        return _prepare_response(as_json, response)
+        return {'error_type': u'login_or_password_wrong_error',
+                'error_msg': u'Неправильный логин или пароль',
+                'fields': fields}
 
     @staticmethod
     def password_wrong(fields, as_json=True):
