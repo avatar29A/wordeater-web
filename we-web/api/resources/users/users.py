@@ -70,8 +70,8 @@ class UserSignInAPI(Resource):
         ss.create(user, token)
 
         return {
-            u'first_name': user.name['first_name'],
-            u'last_name': user.name['last_name'],
+            u'first_name': user.first_name,
+            u'last_name': user.last_name,
             u'auth_token': token
         }
 
@@ -116,11 +116,11 @@ class UserSignUpAPI(Resource):
         except LoginAlreadyExists as ex:
             logger.error(u'UserService.signup({0})'.format(login), ex)
 
-            return ApiResponse(status=4001, errors=errors.SignErrors.user_already_exists(['login']))
+            return ApiResponse(status=4001, errors=errors.SignErrors.login_already_exists(['login']))
         except EmailAlreadyExists as ex:
             logger.error(u'UserService.signup({0})'.format(email), ex)
 
-            return ApiResponse(status=4001, errors=errors.SignErrors.user_already_exists(['email']))
+            return ApiResponse(status=4001, errors=errors.SignErrors.email_already_exists(['email']))
         except Exception as ex:
             logger.error(u'UserSignUpAPI -> us.create({0})'.format(login), ex)
 

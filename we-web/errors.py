@@ -85,12 +85,39 @@ class SignErrors:
     @staticmethod
     def user_already_exists(fields):
         """
-        Пользователь с таким email уже существует
+        User is already exists
+        """
+
+        return {
+            'error_type': u'user_already_exists_error',
+            'error_msg': u'User is already exists',
+            'fields': fields
+        }
+
+    @staticmethod
+    def email_already_exists(fields):
+        """
+        User with same email is already exists
+        :param fields:
+        :return:
         """
 
         return {
             'error_type': u'user_already_exists_error',
             'error_msg': u'Пользователь с такой эл. почтой уже зарегистрирован',
+            'fields': fields
+        }
+
+    @staticmethod
+    def login_already_exists(fields):
+        """
+        User with same login is already exists
+        :return:
+        """
+
+        return {
+            'error_type': u'user_already_exists_error',
+            'error_msg': u'Пользователь с такой логином уже зарегистрирован',
             'fields': fields
         }
 
