@@ -17,7 +17,7 @@ from services.service_locator import ServiceLocator
 from services.exceptions import LoginAlreadyExists, EmailAlreadyExists
 from decorators.authenticate import allow_debug_only
 
-from logger import logger
+from logger import error
 
 
 __author__ = 'Glebov Boris'
@@ -114,15 +114,15 @@ class UserSignUpAPI(Resource):
 
             return user
         except LoginAlreadyExists as ex:
-            logger.error(u'UserService.signup({0})'.format(login), ex)
+            error(u'UserService.signup({0})'.format(login), ex)
 
             return ApiResponse(status=4001, errors=errors.SignErrors.login_already_exists(['login']))
         except EmailAlreadyExists as ex:
-            logger.error(u'UserService.signup({0})'.format(email), ex)
+            error(u'UserService.signup({0})'.format(email), ex)
 
             return ApiResponse(status=4001, errors=errors.SignErrors.email_already_exists(['email']))
         except Exception as ex:
-            logger.error(u'UserSignUpAPI -> us.create({0})'.format(login), ex)
+            error(u'UserSignUpAPI -> us.create({0})'.format(login), ex)
 
             return ApiResponse(status=500, errors=errors.ServerErrors.internal_server_error([]))
 
@@ -156,7 +156,9 @@ class UsersCheckAPI(Resource):
                 'email': email_result
             }
 
-        except Exception:
+        except Exception as ex:
+            error(u'UsersCheckAPI.post', ex)
+
             return {
                 'login': None,
                 'email': None

@@ -103,7 +103,7 @@ class SignErrors:
         """
 
         return {
-            'error_type': u'user_already_exists_error',
+            'error_type': u'email_already_exists',
             'error_msg': u'Пользователь с такой эл. почтой уже зарегистрирован',
             'fields': fields
         }
