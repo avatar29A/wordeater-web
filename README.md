@@ -77,6 +77,6 @@ All test you may run with help **nose test runner** (http://nose.readthedocs.org
 
 # Contacts
 
-For any help, you may create new Issue or write me on email: avatar29A@gmail.com
+For any questions, you may create new Issue or write me on email: avatar29A@gmail.com
 
 Enjoy!
