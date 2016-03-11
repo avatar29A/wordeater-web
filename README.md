@@ -46,7 +46,7 @@ is_debug=0
 
 # Run
 
-- For what run application you need invoke next command:
+- For what would run application you need invoke next command:
 
 ```
 $ python run.py
@@ -64,8 +64,19 @@ $ python run.py
 http://127.0.0.1:5050/api/
 ```
 
-# Test
+# Tests
 
-Application contains functional tests. You may looking for they into tests folder.
+Application contains functional tests. You may find they into /we-web/tests/ folder.
+
+we-web
+ tests
+  dal  - tests for **Service** and **DB** layer
+  rest - tests for **REST** layer
 
 All test you may run with help **nose test runner** (http://nose.readthedocs.org/).
+
+# Contacts
+
+For any help, you may create new Issue or write me on email: avatar29A@gmail.com
+
+Enjoy!
