@@ -32,6 +32,48 @@ class CommonErrors:
             'fields': fields
         }
 
+    @staticmethod
+    def entity_already_exists(message, fields):
+        """
+        Entity is exists error information
+        :param fields:
+        :return:
+        """
+
+        return {
+            'error_type': u'entity_already_exists',
+            'error_msg': message,
+            'fields': fields
+        }
+
+class CardsErrors:
+    @staticmethod
+    def card_already_exists(foreign, fields):
+        """
+        Card is exists error information
+        :param fields:
+        :return:
+        """
+
+        return {
+            'error_type': u'card_already_exists',
+            'error_msg': u"Карточка со словом '{0}' уже существует в вашей библиотеки".format(foreign),
+            'fields': fields
+        }
+
+    @staticmethod
+    def card_dont_exists(fields):
+        """
+        Cards don't exists
+        :param fields:
+        :return:
+        """
+
+        return {
+            'error_type': u'card_dont_exists',
+            'error_msg': u'Запрошенная карточка не найдена. Возможно она была удалена.',
+            'fields': fields
+        }
 
 class SignErrors:
     """

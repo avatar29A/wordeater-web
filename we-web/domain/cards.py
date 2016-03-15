@@ -31,10 +31,20 @@ class Card(BaseDocument):
         self.set_lang(self.user.foreign_lng)
         return self.text
 
+    @foreign.setter
+    def foreign(self, value):
+        self.set_lang(self.user.foreign_lng)
+        self.text = value
+
     @property
     def native(self):
         self.set_lang(self.user.native_lng)
         return self.text
+
+    @native.setter
+    def native(self, value):
+        self.set_lang(self.user.native_lng)
+        self.text = value
 
     i18n = ['text', 'context', 'transcription']
     default_values = {

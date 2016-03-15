@@ -79,9 +79,21 @@ class CardService(BaseService):
 
         return card
 
+    def get(self, user, card_id):
+        """
+        Returns card by user's id and card's id
+        :param user: User ID -> User
+        :param card_id: Card ID -> ObjectId
+        :return: Card entity
+        """
+
+        card = self.db.Card.find_one({'_id': card_id, 'user.$id': user.id})
+
+        return card
+
     def single(self, user, text, lang):
         """
-        Return card by user's login and native word
+        Returns card by user's id and native word
         :param user: User entity
         :param text: native word
         :param lang: language
@@ -93,24 +105,12 @@ class CardService(BaseService):
 
         return card
 
-    def to_native(self, card):
+    def exists(self, user, text, lang):
         """
-        Returns a native card text
-        :param card: Card
-        :return: native text
-        """
-
-        assert card and card.user
-
-        return card.native
-
-    def to_foreign(self, card):
-        """
-        Returns a foreign card text
-        :param card: Card
-        :return: foreign text
+         Returns True if card is exists
+        :param user: User entity
+        :param text: native word
+        :param lang: language
         """
 
-        assert card and card.user
-
-        return card.foreign
+        return self.single(user, text, lang) is not None

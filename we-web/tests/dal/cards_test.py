@@ -2,6 +2,7 @@
 
 import unittest
 import config
+from mongokit import ObjectId
 from dal_test_base import db, BaseTest
 from services.service_locator import ServiceLocator
 
@@ -16,6 +17,14 @@ class CardsTest(BaseTest):
         self.cs = ServiceLocator.resolve(ServiceLocator.CARDS)
         self.us = ServiceLocator.resolve(ServiceLocator.USERS)
         self.gs = ServiceLocator.resolve(ServiceLocator.GROUPS)
+
+    def _create_card(self, foreign, native):
+        user = self.us.create(u'user1', u'user1@example.ru', u'qwerty')
+        group = self.gs.pick_up(user)
+
+        card = self.cs.create(user, group, foreign, native)
+
+        return card
 
 
 class CardsListTest(CardsTest):
@@ -89,7 +98,7 @@ class CardsCreateTest(CardsTest):
             self.assertEqual(group.name, u'Group #{0}'.format((i / config.CARDS_IN_GROUP_AMOUNT) + 1))
 
 
-class CardsExtractText(CardsTest):
+class CardsExtractTextTest(CardsTest):
     """
     Extract native and foreign text from card
     """
@@ -97,22 +106,99 @@ class CardsExtractText(CardsTest):
     def test_to_native(self):
         card = self._create_card(u'dog', u'собака')
 
-        native = self.cs.to_native(card)
+        native = card.native
 
         self.assertEqual(u'собака', native)
 
     def test_to_foreign(self):
         card = self._create_card(u'dog', u'собака')
 
-        foreign = self.cs.to_foreign(card)
+        foreign = card.foreign
 
         self.assertEqual(u'dog', foreign)
 
-    def _create_card(self, foreign, native):
-        user = self.us.create(u'warlock', u'warlock@example.ru', u'qwerty')
-        group = self.gs.pick_up(user)
 
-        card = self.cs.create(user, group, foreign, native)
+class CardsExistsTest(CardsTest):
+    """
+    Checks single and exists methods
+    """
 
-        return card
+    def test_try_get_not_exists_card(self):
+        """
+        Try get not exists card.
+        :return: None
+        """
+        self.clear_db()
+        user = self.us.create(u'user1', u'user1@example.com', u'123')
+
+        card = self.cs.single(user, u'dog', user.native_lng)
+
+        self.assertEqual(card, None)
+
+    def test_try_get_exists_card(self):
+        """
+        Try get exists card.
+        :return: None
+        """
+        self.clear_db()
+
+        card = self._create_card(u'dog', u'собака')
+        user = card.user
+
+        card = self.cs.single(user, card.native, card.user.native_lng)
+
+        self.assertIsNotNone(card)
+
+    def test_try_get_exists_card_by_id(self):
+        """
+        Try get exists card by Card ID
+        :return: Card
+        """
+        self.clear_db()
+
+        new_card = self._create_card(u'dog', u'собака')
+
+        found_card = self.cs.get(new_card.user, new_card.id)
+
+        self.assertIsNotNone(found_card)
+
+    def test_try_get_dont_exists_card_by_id(self):
+        """
+        Try get don't exists card by Card ID
+        :return: None
+        """
+        self.clear_db()
+        user = self.us.create(u'user1', u'user1@example.com', u'123')
+
+        found_card = self.cs.get(user, ObjectId())
+
+        self.assertIsNone(found_card)
+
+    def test_not_exists_card(self):
+        """
+        Checks what card don't exists
+        :return: False
+        """
+        self.clear_db()
+
+        user = self.us.create(u'user1', u'user1@example.com', u'123')
+
+        result = self.cs.exists(user, u'dog', user.native_lng)
+
+        self.assertEqual(result, False)
+
+    def test_exists_card(self):
+        """
+        Checks what card is exists
+        :return: True
+        """
+        self.clear_db()
+
+        card = self._create_card(u'dog', u'собака')
+        user = card.user
+
+        result = self.cs.exists(user, card.native, card.user.native_lng)
+
+        self.assertEqual(result, True)
+
 

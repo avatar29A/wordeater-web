@@ -28,3 +28,5 @@ card_list_fields = api.model(u'CardList', {
     u'is_studying': fields.Boolean,
     u'is_done': fields.Boolean
 })
+
+card_fields = card_list_fields
