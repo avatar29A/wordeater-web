@@ -26,6 +26,7 @@ app.secret_key = config.SECRET_KEY
 app.after_request(add_cors_header)
 
 # REGISTER SERVICES IN ServiceLocator
+
 ServiceLocator.register(ServiceLocator.USERS, users.UserService())
 ServiceLocator.register(ServiceLocator.CARDS, cards.CardService())
 ServiceLocator.register(ServiceLocator.GROUPS, groups.GroupService())

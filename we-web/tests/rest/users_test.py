@@ -1,29 +1,12 @@
 # coding=utf-8
 
-import json
-import unittest
-from tests.dal.dal_test_base import db, BaseTest
-
+from rest_test import *
 import api.resources.users.users
-from app import app
-from services.service_locator import ServiceLocator
-
 
 __author__ = 'Glebov Boris'
 
 
-class UserTest(BaseTest):
-    def setUp(self):
-        BaseTest.setUp(self)
-
-        self.headers = [('Content-Type', 'application/json')]
-
-    def get_app_client(self):
-        app.config['TESTING'] = True
-        return app.test_client()
-
-
-class UserListTest(UserTest):
+class UserListTest(RestBaseTest):
     """
     Test all case for GET: /api/v1/users/
     """
@@ -36,7 +19,7 @@ class UserListTest(UserTest):
         self.assertEqual(data[u'status'], 200)
 
 
-class UserSignInTest(UserTest):
+class UserSignInTest(RestBaseTest):
     """
     Test all case for POST: /api/v1/users/signin/
     """
@@ -84,7 +67,7 @@ class UserSignInTest(UserTest):
         self.assertIsNotNone(response_data[u'data'][u'auth_token'])
 
 
-class UserSignUpTest(UserTest):
+class UserSignUpTest(RestBaseTest):
     """
     Test all case for POST: /api/v1/users/signup/
     """
@@ -172,7 +155,7 @@ class UserSignUpTest(UserTest):
         self.assertIsNotNone(user)
 
 
-class UserCheckTest(UserTest):
+class UserCheckTest(RestBaseTest):
     """
     Test all case for POST: /api/v1/users/check/
     """

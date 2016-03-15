@@ -18,13 +18,15 @@ __author__ = 'Warlock'
 
 cards_ns = api.namespace(name='Cards', description="Requests for page words", path=API_PATH)
 
-ss = ServiceLocator.resolve(ServiceLocator.SESSIONS)
-cs = ServiceLocator.resolve(ServiceLocator.CARDS)
-gs = ServiceLocator.resolve(ServiceLocator.GROUPS)
-
 
 @cards_ns.route('/cards/', endpoint='cards')
 class CardsAPI(Resource):
+    def __init__(self, api, *args, **kwargs):
+        Resource.__init__(self, api, *args, **kwargs)
+        self.ss = ServiceLocator.resolve(ServiceLocator.SESSIONS)
+        self.cs = ServiceLocator.resolve(ServiceLocator.CARDS)
+        self.gs = ServiceLocator.resolve(ServiceLocator.GROUPS)
+
     @expose
     @api.marshal_with(card_list_fields, envelope=ENVELOPE_DATA, as_list=True)
     def get(self):
@@ -33,13 +35,11 @@ class CardsAPI(Resource):
         :return:
         """
 
-        user = ss.get_user()
+        user = self.ss.get_user()
 
-        cards = cs.list(user)
+        cards = self.cs.list(user)
 
-        return {
-            'data': cards
-        }
+        return cards
 
     @expose
     @api.doc(body=card_input_fields)
@@ -62,10 +62,10 @@ class CardsAPI(Resource):
         context = args.get(u'context', u'')
         image_url = args.get(u'image_url', u'')
 
-        user = ss.get_user()
-        group = gs.pick_up(user)
+        user = self.ss.get_user()
+        group = self.gs.pick_up(user)
 
-        card = cs.create(user, group, foreign, native, transcription, context, image_url)
+        card = self.cs.create(user, group, foreign, native, transcription, context, image_url)
         if card is None:
             return ApiResponse(status=500, errors=ServerErrors.internal_server_error([]))
 
