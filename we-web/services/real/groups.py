@@ -49,6 +49,7 @@ class GroupService(BaseService):
     def pick_up(self, user):
         """
         Pick up group for user.
+        :param user: Owner
         :return: Group
         """
 

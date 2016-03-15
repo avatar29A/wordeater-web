@@ -3,7 +3,7 @@
 import errors
 
 from flask.ext.restplus import Resource
-from flask import session, request
+from flask import request
 from cerberus import Validator
 
 from config import API_PATH, ENVELOPE_DATA

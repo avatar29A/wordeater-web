@@ -13,6 +13,8 @@ user_schema = {
     'last_name': {'type': 'string', 'required': True, 'nullable': False, 'empty': False}
 }
 
+user_input_fields = get_input_model_from_cerberus_schema(user_schema, 'UserInput')
+
 
 user_fields = api.model(u'User', {
     u'auth_token': fields.String,
@@ -33,9 +35,6 @@ user_list_fields = api.model(u'UserList', {
     u'foreign_lng': fields.String,
     u'native_lng': fields.String
 })
-
-
-user_input_fields = get_input_model_from_cerberus_schema(user_schema, 'UserInput')
 
 #
 # Sign In
