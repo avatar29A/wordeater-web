@@ -42,7 +42,7 @@ class GroupsAPI(GroupResource):
         """
 
         user = self.ss.get_user()
-        groups = self.gs.list(user)
+        groups = list(self.gs.list(user))
 
         return groups
 

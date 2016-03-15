@@ -1,10 +1,9 @@
 # coding=utf-8
-
 from rest_test import *
 import api.resources.cards.cards
 from mongokit import ObjectId
 
-__author__ = 'Warlock'
+__author__ = 'Glebov Boris'
 
 
 class CardsGetTest(RestBaseTest):
@@ -26,6 +25,13 @@ class CardsGetTest(RestBaseTest):
         self.assertEqual(response_data[u'data'], [])
 
     def test_get_one_card(self):
+        """
+        1. Create one card entity
+        2. Send request on get all cards
+        3. Check number received entities. Expected 1.
+        """
+
+        # Step 1
         self.clear_db()
         self.create_demo_session()
 
@@ -37,8 +43,10 @@ class CardsGetTest(RestBaseTest):
         group = gs.pick_up(user)
         cs.create(user, group, u'god', u'собака')
 
+        # Step 2
         response_data = self._get()
 
+        # Step 3
         self.assertEqual(200, response_data[u'status'])
         self.assertEqual(len(response_data[u'data']), 1)
 
