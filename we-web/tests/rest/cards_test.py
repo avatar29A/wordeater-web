@@ -215,7 +215,7 @@ class CardPutTest(RestBaseTest):
             u'native': u'собака'
         }
 
-        r = self._put(str(card.id), data)
+        r = self._patch(str(card.id), data)
 
         self.assertEqual(r[u'status'], 200)
 
@@ -253,7 +253,7 @@ class CardPutTest(RestBaseTest):
             u'native': u'собака'
         }
 
-        r = self._put(str(card1.id), data)
+        r = self._patch(str(card1.id), data)
 
         # Step 4
 
@@ -280,16 +280,16 @@ class CardPutTest(RestBaseTest):
             u'native': u'собака'
         }
 
-        r = self._put(str(ObjectId()), data)
+        r = self._patch(str(ObjectId()), data)
 
         # Step 3
 
         self.assertEqual(r[u'status'], 404)
 
-    def _put(self, card_id, data):
+    def _patch(self, card_id, data):
         client_app = self.get_app_client()
 
-        r = client_app.put('/api/v1/card/' + card_id + '/', headers=self.headers, data=json.dumps(data))
+        r = client_app.patch('/api/v1/card/' + card_id + '/', headers=self.headers, data=json.dumps(data))
         response_data = json.loads(r.data)
 
         return response_data

@@ -102,7 +102,7 @@ class CardApi(CardsResource):
     @expose
     @api.doc(body=card_input_fields)
     @api.marshal_with(card_input_fields, envelope=ENVELOPE_DATA, code=200)
-    def put(self, card_id):
+    def patch(self, card_id):
         u"""
         Update card entity
         :param card_id: card's id
