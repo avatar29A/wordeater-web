@@ -26,6 +26,16 @@ class Card(BaseDocument):
         'create_date': datetime.datetime
     }
 
+    @property
+    def foreign(self):
+        self.set_lang(self.user.foreign_lng)
+        return self.text
+
+    @property
+    def native(self):
+        self.set_lang(self.user.native_lng)
+        return self.text
+
     i18n = ['text', 'context', 'transcription']
     default_values = {
         'create_date': datetime.datetime.now(),

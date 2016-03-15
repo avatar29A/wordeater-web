@@ -51,7 +51,7 @@ class CardsAPI(Resource):
         """
 
         v = Validator(card_schema)
-        args = v.validated(request.get_json)
+        args = v.validated(request.get_json())
 
         if args is None:
             return ApiResponse(status=4001, errors=v.errors)

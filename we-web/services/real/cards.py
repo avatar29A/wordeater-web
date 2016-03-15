@@ -102,9 +102,7 @@ class CardService(BaseService):
 
         assert card and card.user
 
-        card.set_lang(card.user.native_lng)
-
-        return card.text
+        return card.native
 
     def to_foreign(self, card):
         """
@@ -115,6 +113,4 @@ class CardService(BaseService):
 
         assert card and card.user
 
-        card.set_lang(card.user.foreign_lng)
-
-        return card.text
+        return card.foreign
