@@ -19,8 +19,7 @@ class Group(BaseDocument):
         'description': unicode,
         'cards_count': int,
         'cards_studying_count': int,
-        'create_date': datetime.datetime,
-        'author': ObjectId
+        'create_date': datetime.datetime
     }
 
     default_values = {

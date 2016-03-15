@@ -144,6 +144,7 @@ class CardApi(CardsResource):
 
             return ApiResponse(status=500, errors=ServerErrors.internal_server_error([]))
 
+    @expose
     def delete(self, card_id):
         """
         Remove card

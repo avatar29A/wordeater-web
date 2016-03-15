@@ -46,6 +46,7 @@ class CommonErrors:
             'fields': fields
         }
 
+
 class CardsErrors:
     @staticmethod
     def card_already_exists(foreign, fields):
@@ -74,6 +75,37 @@ class CardsErrors:
             'error_msg': u'Запрошенная карточка не найдена. Возможно она была удалена.',
             'fields': fields
         }
+
+
+class GroupsErrors:
+    @staticmethod
+    def group_already_exists(name, fields):
+        """
+        Card is exists error information
+        :param fields:
+        :return:
+        """
+
+        return {
+            'error_type': u'group_already_exists',
+            'error_msg': u"Группа с именем '{0}' уже существует".format(name),
+            'fields': fields
+        }
+
+    @staticmethod
+    def group_dont_exists(fields):
+        """
+        Cards don't exists
+        :param fields:
+        :return:
+        """
+
+        return {
+            'error_type': u'grup_dont_exists',
+            'error_msg': u'Запрошенная группа не найдена, возможно она была удалена.',
+            'fields': fields
+        }
+
 
 class SignErrors:
     """
