@@ -124,7 +124,7 @@ class CardApi(CardsResource):
         foreign = args.get(u'foreign')
         native = args.get(u'native')
         transcription = args.get(u'transcription', card.transcription)
-        context = args.get(u'context', card.context)
+        context = args.get(u'context', card.foreign_context)
         image_url = args.get(u'image_url', card.image_url)
 
         duplicate_card = self.cs.single(user, foreign, user.foreign_lng)

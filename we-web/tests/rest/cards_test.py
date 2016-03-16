@@ -117,6 +117,7 @@ class CardsPostTest(RestBaseTest):
         self.assertEqual(result_data[u'status'], 201)
         self.assertEqual(result_data[u'data'][u'foreign'], data[u'foreign'])
         self.assertEqual(result_data[u'data'][u'native'], data[u'native'])
+        self.assertEqual(result_data[u'data'][u'context'], u"dog it's human pet")
 
     def _post(self, data):
         client_app = self.get_app_client()

@@ -50,16 +50,9 @@ class CardService(BaseService):
         card.user = user
 
         # set native field
-        card.text = native
-
-        # set foreign field
-        card.set_lang(user.foreign_lng)
-
-        card.text = foreign
-        card.context = context
-        card.transcription = transcription
-
-        # Optional:
+        card.native = native
+        card.foreign = foreign
+        card.foreign_context = context
         card.transcription = transcription
         card.image_url = image_url
 

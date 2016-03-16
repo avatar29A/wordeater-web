@@ -86,6 +86,7 @@ class GroupAPI(GroupResource):
         if group is None:
             return ApiResponse(status=404, errors=GroupsErrors.group_dont_exists([]))
 
+        group.cards = list(group.get_cards())
         return group
 
     @expose

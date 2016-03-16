@@ -18,8 +18,8 @@ class Card(BaseDocument):
         'group': Group,
         # Fields
         'text': unicode,
-        'transcription': unicode,
-        'context': unicode,
+        'foreign_transcription': unicode,
+        'foreign_context': unicode,
         'image_url': unicode,
         'is_studying': bool,
         'is_done': bool,
@@ -46,7 +46,27 @@ class Card(BaseDocument):
         self.set_lang(self.user.native_lng)
         self.text = value
 
-    i18n = ['text', 'context', 'transcription']
+    @property
+    def context(self):
+        self.set_lang(self.user.foreign_lng)
+        return self.foreign_context
+
+    @context.setter
+    def context(self, value):
+        self.set_lang(self.user.foreign_lng)
+        self.foreign_context = value
+
+    @property
+    def transcription(self):
+        self.set_lang(self.user.native_lng)
+        return self.foreign_transcription
+
+    @transcription.setter
+    def transcription(self, value):
+        self.set_lang(self.user.foreign_lng)
+        self.foreign_transcription = value
+
+    i18n = ['text', 'foreign_context', 'foreign_transcription']
     default_values = {
         'create_date': datetime.datetime.now(),
         'is_studying': True,

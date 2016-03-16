@@ -28,6 +28,5 @@ class Group(BaseDocument):
         'cards_studying_count': 0
     }
 
-    @property
-    def cards(self):
+    def get_cards(self):
         return db.Card.find({"group.$id": self.id})
