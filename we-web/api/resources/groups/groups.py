@@ -20,7 +20,7 @@ from logger import error
 
 __author__ = 'Glebov Boris'
 
-groups_ns = api.namespace(name='Groups', description="Requests for page groups", path=API_PATH)
+groups_ns = api.namespace(name='Groups', description="Requests related with groups", path=API_PATH)
 
 
 class GroupResource(Resource):

@@ -18,7 +18,7 @@ from logger import error
 
 __author__ = 'Warlock'
 
-cards_ns = api.namespace(name='Cards', description="Requests for page words", path=API_PATH)
+cards_ns = api.namespace(name='Cards', description="Requests related with cards", path=API_PATH)
 
 
 class CardsResource(Resource):
