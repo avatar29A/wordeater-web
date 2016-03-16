@@ -239,3 +239,96 @@ class GroupGetAPI(RestBaseTest):
         response_data = json.loads(r.data)
 
         return response_data
+
+
+class GroupPatchAPI(RestBaseTest):
+    """
+    Test all cases for method PATCH: /card/<group_id>/
+    """
+
+    def test_try_patch_doesnt_exists_group(self):
+        """
+        1. Create sessions
+        2. Send request with fake ID
+        3. Expected 404
+        """
+
+        # Step 1
+        self.clear_db()
+        self.create_demo_session()
+
+        # Step 2
+        data = {u'name': u'group2'}
+
+        response_data = self._patch(str(ObjectId()), data)
+
+        # Step 3
+        self.assertEqual(404, response_data[u'status'])
+
+    def test_duplicate_group_name(self):
+        """
+        1. Create sessions
+        2. Create two group: group1 and group2
+        3. Try change name the first group on the group2 through API
+        4. Expected 409
+        """
+        # Step 1
+        self.clear_db()
+        self.create_demo_session()
+
+        # Step 2
+        us = ServiceLocator.resolve(ServiceLocator.USERS)
+        gs = ServiceLocator.resolve(ServiceLocator.GROUPS)
+
+        user = us.single(u'user1')
+
+        group1 = gs.create(user, u'group1', u'')
+        group2 = gs.create(user, u'group2', u'')
+
+        # Step 3
+        data = {u'name': u'group2'}
+
+        response_data = self._patch(str(group1.id), data)
+
+        # Step 4
+        self.assertEqual(409, response_data[u'status'])
+
+    def test_patch_success(self):
+        """
+        1. Create sessions
+        2. Create one group
+        3. Try change group name
+        4. Expected 200
+        5. Check through DAL, a new group name.
+        """
+        # Step 1
+        self.clear_db()
+        self.create_demo_session()
+
+        # Step 2
+        us = ServiceLocator.resolve(ServiceLocator.USERS)
+        gs = ServiceLocator.resolve(ServiceLocator.GROUPS)
+
+        user = us.single(u'user1')
+
+        group1 = gs.create(user, u'group1', u'')
+
+        # Step 3
+        data = {u'name': u'group2'}
+
+        response_data = self._patch(str(group1.id), data)
+
+        # Step 4
+        self.assertEqual(200, response_data[u'status'])
+
+        # Step 5
+        group2 = gs.single(user=user, name=u'group2')
+        self.assertIsNotNone(group2, u"Group with name 'group2' doesn't found")
+
+    def _patch(self, group_id, data):
+        client_app = self.get_app_client()
+
+        r = client_app.patch('/api/v1/group/' + group_id + '/', headers=self.headers, data=json.dumps(data))
+        response_data = json.loads(r.data)
+
+        return response_data

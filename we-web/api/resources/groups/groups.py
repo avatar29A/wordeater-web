@@ -114,13 +114,18 @@ class GroupAPI(GroupResource):
 
         user = self.ss.get_user()
         duplicate_group = self.gs.single(user=user, name=name)
-        if duplicate_group.id == group.id:
+        if duplicate_group and duplicate_group.id != group.id:
             return ApiResponse(status=409, errors=GroupsErrors.group_already_exists(name, [u'name']))
 
         try:
             group.name = name
             group.description = description
 
+            group.validate()
+            group.save()
+
             return group
         except Exception as ex:
             error(u'GroupAPI.patch(group_id={0})'.format(group_id), ex)
+
+            return ApiResponse(status=500, errors=ServerErrors.internal_server_error([]))
