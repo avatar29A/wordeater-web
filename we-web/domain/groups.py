@@ -22,6 +22,8 @@ class Group(BaseDocument):
         'create_date': datetime.datetime
     }
 
+    required_fields = ['user', 'name']
+
     default_values = {
         'create_date': datetime.datetime.now(),
         'cards_count': 0,

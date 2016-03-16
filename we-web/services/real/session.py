@@ -7,7 +7,7 @@ from services.service_locator import ServiceLocator
 from utils.session_manager import UserSession
 from flask import session
 
-__author__ = 'Warlock'
+__author__ = 'Glebov Boris'
 
 
 class SessionService(BaseService):
