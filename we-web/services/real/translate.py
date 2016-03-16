@@ -27,6 +27,10 @@ class TranslateService(BaseService):
         :return: translated text
         """
 
+        translation = self.get(text, foreign, native)
+        if translation:
+            return translation
+
     def get(self, text, foreign, native):
         """
         Try to find translation in DB
