@@ -67,9 +67,16 @@ class Card(BaseDocument):
         self.foreign_transcription = value
 
     i18n = ['text', 'foreign_context', 'foreign_transcription']
+
     required_fields = ['user', 'group', 'text']
+
     default_values = {
         'create_date': datetime.datetime.now(),
         'is_studying': True,
         'is_done': False
     }
+
+    indexes = [{
+        'fields': ['user', 'group', 'text'],
+        'unique': False
+    }]

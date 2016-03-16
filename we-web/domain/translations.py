@@ -23,3 +23,12 @@ class Translation(BaseDocument):
         'create_date': datetime.datetime.now(),
         'author': 'anonymous'
     }
+
+    indexes = [
+        {
+            'fields': ['user', 'foreign', 'native'],
+            'unique': True
+        },
+        {
+            'fields': ['author']
+        }]

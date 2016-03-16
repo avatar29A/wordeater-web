@@ -18,6 +18,12 @@ class Schedule(BaseDocument):
         'author': ObjectId
     }
 
+    required_fields = ['user', 'card']
+    indexes = [{
+        'fields': ['user', 'card'],
+        'unique': True
+    }]
+
     default_values = {
         'create_date': datetime.datetime.now()
     }

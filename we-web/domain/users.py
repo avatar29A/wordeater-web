@@ -46,7 +46,7 @@ class User(BaseDocument):
 
     indexes = [
         {
-            'fields': ['login', 'email', 'password', 'native_lng', 'foreign_lng'],
+            'fields': ['login', 'email'],
             'unique': True
         }]
 

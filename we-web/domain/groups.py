@@ -30,5 +30,10 @@ class Group(BaseDocument):
         'cards_studying_count': 0
     }
 
+    indexes = [{
+        'fields': ['user', 'name'],
+        'unique': True
+    }]
+
     def get_cards(self):
         return db.Card.find({"group.$id": self.id})

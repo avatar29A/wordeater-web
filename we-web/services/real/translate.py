@@ -27,3 +27,14 @@ class TranslateService(BaseService):
         :return: translated text
         """
 
+    def get(self, text, foreign, native):
+        """
+        Try to find translation in DB
+        :param text: sentence to translate.
+        :param foreign: foreign language
+        :param native: native language
+
+        :return: translated text
+        """
+
+        return self.db.Translation.find_one({'text': text, 'foreign': foreign, 'native': native})
