@@ -12,6 +12,7 @@ from services.service_locator import ServiceLocator
 from decorators.authenticate import expose
 from models import translation_schema, translation_fields, translation_input_fields, translation_detect_fields
 
+from errors import ServerErrors
 from logger import error
 
 __author__ = 'Glebov Boris'
@@ -51,6 +52,8 @@ class TranslationsTranslateAPI(TranslationResource):
             return translation
         except Exception as ex:
             error(u'TranslationsAPI.post(text={0}, dir={1})'.format(text, user.direction), ex)
+
+            return ApiResponse(status=500, errors=ServerErrors.internal_server_error([]))
 
 
 @translations_ns.route('/translations/detect/', endpoint='detect')

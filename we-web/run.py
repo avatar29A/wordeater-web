@@ -9,6 +9,7 @@ import api.resources.users.users
 import api.resources.groups.groups
 import api.resources.cards.cards
 import api.resources.translations.translations
+import api.resources.pictures.pictures
 
 if __name__ == '__main__':
     app_options = {'debug': True, 'host': '0.0.0.0', 'port': 5050}

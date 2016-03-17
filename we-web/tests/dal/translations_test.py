@@ -3,8 +3,6 @@
 import unittest
 from dal_test_base import BaseTest
 from services.service_locator import ServiceLocator
-from services.real.translate import TranslateService
-from services.mocks.yandex_translate import YandexTranslateFake
 
 __author__ = 'Glebov Boris'
 
@@ -13,12 +11,7 @@ class TranslationTest(BaseTest):
     def setUp(self):
         BaseTest.setUp(self)
 
-        self.ts = TranslateService()
-        self.ts.engine = YandexTranslateFake()
-
-        self.create_demo_session()
-
-        ServiceLocator.register(ServiceLocator.TRANSLATIONS, self.ts)
+        self.ts = ServiceLocator.resolve(ServiceLocator.TRANSLATIONS)
 
 
 class TranslationTranslateTest(TranslationTest):
@@ -35,6 +28,7 @@ class TranslationTranslateTest(TranslationTest):
         :return:
         """
         self.clear_db()
+        self.create_demo_session()
 
         translation = self.ts.translate(u'dog', u'en-ru')
         self.assertIsNotNone(translation)
@@ -47,6 +41,7 @@ class TranslationTranslateTest(TranslationTest):
         :return: Translation entity
         """
         self.clear_db()
+        self.create_demo_session()
 
         translation1 = self.ts.translate(u'dog', u'en-ru')
         translation2 = self.ts.translate(u'dog', u'en-ru')

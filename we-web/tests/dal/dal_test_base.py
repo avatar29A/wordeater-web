@@ -9,8 +9,13 @@ from services.real.groups import GroupService
 from services.real.cards import CardService
 from services.real.login_audits import LoginAutits
 from services.real.schedules import ScheduleService
+from services.real.translate import TranslateService
+from services.real.pictures import PictureService
 
 from services.mocks.session import SessionService
+
+from services.mocks.yandex_translate import YandexTranslateFake
+from services.mocks.giphy import GiphyFake
 
 
 config.DATABASE['db_name'] = 'we_test'
@@ -35,6 +40,17 @@ class BaseTest(unittest.TestCase):
 
         # Mock:
         ServiceLocator.register(ServiceLocator.SESSIONS, SessionService())
+
+        # Mock translate service
+        ts = TranslateService()
+        ts.engine = YandexTranslateFake()
+        ServiceLocator.register(ServiceLocator.TRANSLATIONS, ts)
+
+        # Mock picutre service
+        ps = PictureService()
+        ps.engine = GiphyFake()
+        ServiceLocator.register(ServiceLocator.PICTURES, ps)
+
 
     def create_demo_user(self):
         us = ServiceLocator.resolve(ServiceLocator.USERS)

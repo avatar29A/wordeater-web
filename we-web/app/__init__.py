@@ -11,7 +11,7 @@ from flask.ext.restplus import apidoc
 from domain.model import db
 
 from services.service_locator import ServiceLocator
-from services.real import cards, users, groups, session, translate
+from services.real import cards, users, groups, session, translate, pictures
 
 from api.common.auth import add_cors_header
 
@@ -32,6 +32,7 @@ ServiceLocator.register(ServiceLocator.CARDS, cards.CardService())
 ServiceLocator.register(ServiceLocator.GROUPS, groups.GroupService())
 ServiceLocator.register(ServiceLocator.SESSIONS, session.SessionService())
 ServiceLocator.register(ServiceLocator.TRANSLATIONS, translate.TranslateService())
+ServiceLocator.register(ServiceLocator.PICTURES, pictures.PictureService())
 ServiceLocator.register(ServiceLocator.DB, db)
 
 

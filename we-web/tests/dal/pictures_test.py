@@ -3,8 +3,6 @@
 import unittest
 from dal_test_base import BaseTest
 from services.service_locator import ServiceLocator
-from services.real.pictures import PictureService
-from services.mocks.giphy import GiphyFake
 
 __author__ = 'Glebov Boris'
 
@@ -13,10 +11,7 @@ class PictureTest(BaseTest):
     def setUp(self):
         BaseTest.setUp(self)
 
-        self.ps = PictureService()
-        self.ps.engine = GiphyFake()
-
-        ServiceLocator.register(ServiceLocator.PICTURES, self.ps)
+        self.ps = ServiceLocator.resolve(ServiceLocator.PICTURES)
 
 
 class PictureRandomTest(PictureTest):
