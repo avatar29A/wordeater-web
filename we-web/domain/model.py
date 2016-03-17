@@ -48,3 +48,4 @@ from domain.cards import Group
 from domain.login_audit import LoginAudit
 from domain.schedules import Schedule
 from domain.translations import Translation
+from domain.pictures import Picture

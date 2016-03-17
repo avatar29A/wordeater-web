@@ -62,22 +62,6 @@ class TranslationsDetectAPI(RestBaseTest):
         self.assertEqual(response_data[u'status'], 200)
         self.assertEqual(response_data[u'data'][u'lang'], u'en')
 
-    def test_detect_ru_lang(self):
-        """
-        1. Send request u'Hello world!'
-        2. Expected lang=='en'
-        """
-
-        # Step 1
-        data = {
-            u'text': u'Привет мир!'
-        }
-
-        response_data = self._post(data)
-
-        self.assertEqual(response_data[u'status'], 200)
-        self.assertEqual(response_data[u'data'][u'lang'], u'ru')
-
     def _post(self, data):
         client_app = self.get_app_client()
         r = client_app.post('/api/v1/translations/detect/', headers=self.headers, data=json.dumps(data))

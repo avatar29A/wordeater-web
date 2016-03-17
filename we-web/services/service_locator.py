@@ -9,6 +9,7 @@ class ServiceLocator(object):
     SCHEDULES = "schedules"
     LOGIN_AUDIT = "login_audit"
     TRANSLATIONS = "translations"
+    PICTURES = "pictures"
 
     SESSIONS = "sessions"
 

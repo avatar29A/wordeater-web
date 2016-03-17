@@ -4,7 +4,7 @@ import unittest
 from dal_test_base import BaseTest
 from services.service_locator import ServiceLocator
 from services.real.translate import TranslateService
-
+from services.mocks.yandex_translate import YandexTranslateFake
 
 __author__ = 'Glebov Boris'
 
@@ -14,6 +14,8 @@ class TranslationTest(BaseTest):
         BaseTest.setUp(self)
 
         self.ts = TranslateService()
+        self.ts.engine = YandexTranslateFake()
+
         self.create_demo_session()
 
         ServiceLocator.register(ServiceLocator.TRANSLATIONS, self.ts)
@@ -39,16 +41,6 @@ class TranslationTranslateTest(TranslationTest):
         self.assertEqual(translation.variations[0], u'собака')
         self.assertEqual(translation.author, u'user1')
 
-    def test_translate_unknow_word(self):
-        """
-        Detect
-        :return:
-        """
-        self.clear_db()
-
-        translation = self.ts.translate(u'dog342424234', u'en-ru')
-        self.assertEqual(translation.variations[0], u'dog342424234')
-
     def test_translate_word_exists_in_cache(self):
         """
         Detect what word exists in cache, extract it from DB and send to user
@@ -60,21 +52,3 @@ class TranslationTranslateTest(TranslationTest):
         translation2 = self.ts.translate(u'dog', u'en-ru')
 
         self.assertEqual(translation1.id, translation2.id)
-
-
-class TranslationDetectAPI(TranslationTest):
-    """
-    Test all case for detect method
-    """
-
-    def test_detect_lang_for_dog(self):
-        """
-        Detect word language
-        :return: Language. Example: ru, en, etc.
-        """
-
-        lang1 = self.ts.detect(u'dog')
-        lang2 = self.ts.detect(u'собака')
-
-        self.assertEqual(lang1, u'en')
-        self.assertEqual(lang2, u'ru')

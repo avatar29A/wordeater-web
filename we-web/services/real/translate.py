@@ -15,7 +15,7 @@ class TranslateService(BaseService):
     #
     # Public methods
     def __init__(self):
-        self.ya_api = YandexTranslate(config.TRANSLATE_YANDEX_KEY)
+        self.engine = YandexTranslate(config.TRANSLATE_YANDEX_KEY)
 
         BaseService.__init__(self)
 
@@ -35,7 +35,7 @@ class TranslateService(BaseService):
         if translation:
             return translation
 
-        response = self.ya_api.translate(text, direction)
+        response = self.engine.translate(text, direction)
         if response and response[u'code'] == 200:
             return self.add(text, response)
 
@@ -85,4 +85,4 @@ class TranslateService(BaseService):
         :return: language
         """
 
-        return self.ya_api.detect(text)
+        return self.engine.detect(text)
