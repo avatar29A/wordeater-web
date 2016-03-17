@@ -1,7 +1,7 @@
 # coding=utf-8
 import config
 
-from flask import Flask, render_template, redirect
+from flask import Flask, redirect
 from utils.memcached_session import Session
 from werkzeug.contrib.cache import MemcachedCache
 
@@ -11,7 +11,7 @@ from flask.ext.restplus import apidoc
 from domain.model import db
 
 from services.service_locator import ServiceLocator
-from services.real import cards, users, groups, session, translate, pictures
+from services.real import cards, users, groups, session, translate, pictures, vocabularity
 
 from api.common.auth import add_cors_header
 
@@ -33,6 +33,7 @@ ServiceLocator.register(ServiceLocator.GROUPS, groups.GroupService())
 ServiceLocator.register(ServiceLocator.SESSIONS, session.SessionService())
 ServiceLocator.register(ServiceLocator.TRANSLATIONS, translate.TranslateService())
 ServiceLocator.register(ServiceLocator.PICTURES, pictures.PictureService())
+ServiceLocator.register(ServiceLocator.VOCABULARITY, vocabularity.VocabularityService)
 ServiceLocator.register(ServiceLocator.DB, db)
 
 

@@ -1,6 +1,8 @@
 # coding=utf-8
+import json
 
 from services.base import BaseService
+from services.service_locator import ServiceLocator
 from logger import error
 
 __author__ = 'Warlock'
@@ -52,9 +54,11 @@ class CardService(BaseService):
         # set native field
         card.native = native
         card.foreign = foreign
-        card.foreign_context = context
         card.transcription = transcription
         card.image_url = image_url
+
+        # Try to set context:
+        card.foreign_context = context if context else self._get_context(card.foreign)
 
         # Link with group:
         card.group = group
@@ -107,3 +111,9 @@ class CardService(BaseService):
         """
 
         return self.single(user, text, lang) is not None
+
+    @staticmethod
+    def _get_context(text):
+        vs = ServiceLocator.resolve(ServiceLocator.VOCABULARITY)
+
+        return vs.get_context(text)
