@@ -62,3 +62,21 @@ class TranslationTranslateTest(TranslationTest):
         translation2 = self.ts.translate(u'dog', u'en-ru')
 
         self.assertEqual(translation1.id, translation2.id)
+
+
+class TranslationDetectAPI(TranslationTest):
+    """
+    Test all case for detect method
+    """
+
+    def test_detect_lang_for_dog(self):
+        """
+        Detect word language
+        :return: Language. Example: ru, en, etc.
+        """
+
+        lang1 = self.ts.detect(u'dog')
+        lang2 = self.ts.detect(u'собака')
+
+        self.assertEqual(lang1, u'en')
+        self.assertEqual(lang2, u'ru')
