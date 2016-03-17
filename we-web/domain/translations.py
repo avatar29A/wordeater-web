@@ -15,7 +15,8 @@ class Translation(BaseDocument):
         'text': unicode,
         'variations': [unicode],
         'direction': unicode,
-        'author': unicode
+        'author': unicode,
+        'create_date': datetime.datetime
     }
 
     required_fields = ['text', 'direction']
@@ -26,7 +27,7 @@ class Translation(BaseDocument):
 
     indexes = [
         {
-            'fields': ['user', 'direction'],
+            'fields': ['text', 'direction'],
             'unique': True
         },
         {

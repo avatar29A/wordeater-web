@@ -32,6 +32,7 @@ class BaseTest(unittest.TestCase):
         ServiceLocator.register(ServiceLocator.LOGIN_AUDIT, LoginAutits())
         ServiceLocator.register(ServiceLocator.SCHEDULES, ScheduleService())
 
+
         # Mock:
         ServiceLocator.register(ServiceLocator.SESSIONS, SessionService())
 
