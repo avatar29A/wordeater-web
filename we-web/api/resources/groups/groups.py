@@ -1,10 +1,7 @@
 # coding=utf-8
 
-import json
-import datetime
-
 from flask.ext.restplus import Resource
-from flask import session, request
+from flask import request
 from app import api
 from utils.wordeater_api import ApiResponse
 from cerberus import Validator

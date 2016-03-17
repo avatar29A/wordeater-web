@@ -54,3 +54,7 @@ class User(BaseDocument):
     def cards(self):
         return list(db.Card.find({"user.$id": self.id}))
 
+    @property
+    def direction(self):
+        return u'{0}-{1}'.format(self.foreign_lng, self.native_lng)
+

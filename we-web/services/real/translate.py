@@ -16,7 +16,6 @@ class TranslateService(BaseService):
     # Public methods
     def __init__(self):
         self.ya_api = YandexTranslate(config.TRANSLATE_YANDEX_KEY)
-        self.ss = ServiceLocator.resolve(ServiceLocator.SESSIONS)
 
         BaseService.__init__(self)
 
@@ -61,13 +60,14 @@ class TranslateService(BaseService):
 
         :return: translated text
         """
+        ss = ServiceLocator.resolve(ServiceLocator.SESSIONS)
 
         translation_entity = self.db.Translation()
 
         translation_entity.direction = translation[u'lang']
         translation_entity.text = text
         translation_entity.variations = translation[u'text']
-        translation_entity.author = self.ss.get().login
+        translation_entity.author = ss.get().login
 
         try:
             translation_entity.validate()
