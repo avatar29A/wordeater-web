@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from services.base import BaseService
-from logger import logger
+from logger import error
 
 __author__ = 'Warlock'
 
@@ -67,7 +67,7 @@ class CardService(BaseService):
             group.cards_count += 1
             group.save()
         except Exception as ex:
-            logger.error(u'Card.create', ex)
+            error(u'Card.create', ex)
             return None
 
         return card

@@ -9,3 +9,10 @@ class EmailAlreadyExists(Exception):
 
 class LoginAlreadyExists(Exception):
     pass
+
+
+class TranslateError(Exception):
+    def __init__(self, response, *args, **kwargs):
+        self.response = response
+
+        Exception.__init__(*args, **kwargs)

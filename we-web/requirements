@@ -29,3 +29,4 @@ cssmin
 # Tools:
 configparser2==4.0.0
 pydash
+yandex.translate

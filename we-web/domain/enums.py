@@ -13,7 +13,3 @@ LANGUAGE_DESCRIPTION = {
 }
 
 SEX = [u'male', u'female']
-
-VOICE_PROVIDERS = [u'bluemix', u'yandex']
-TRANSLATION_PROVIDERS = [u'yandex', u'google', u'bluemix']
-PICTURE = [u'google']

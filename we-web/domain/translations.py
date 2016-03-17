@@ -13,12 +13,12 @@ class Translation(BaseDocument):
 
     structure = {
         'text': unicode,
-        'foreign': unicode,
-        'native': unicode,
+        'variations': [unicode],
+        'direction': unicode,
         'author': unicode
     }
 
-    required_fields = ['text', 'foreign', 'native']
+    required_fields = ['text', 'direction']
     default_values = {
         'create_date': datetime.datetime.now(),
         'author': 'anonymous'
@@ -26,7 +26,7 @@ class Translation(BaseDocument):
 
     indexes = [
         {
-            'fields': ['user', 'foreign', 'native'],
+            'fields': ['user', 'direction'],
             'unique': True
         },
         {

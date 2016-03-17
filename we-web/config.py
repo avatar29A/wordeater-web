@@ -43,3 +43,6 @@ LOG_PATH = config.get('LOGGER', 'directory')
 CARDS_IN_GROUP_AMOUNT = int(config.get('APPLICATION', 'cards_in_group_amount'))
 SESSION_EXPIRES = int(config.get('APPLICATION', 'session_expires'))
 IS_DEBUG = int(config.get('APPLICATION', 'is_debug')) == 1
+
+# [TRANSLATE_YANDEX_PROVIDER]
+TRANSLATE_YANDEX_KEY = config.get('TRANSLATE_YANDEX_PROVIDER', 'key')

@@ -4,8 +4,9 @@ import config
 
 from services.base import BaseService
 from services.service_locator import ServiceLocator
-from utils.session_manager import UserSession
-from flask import session
+from yandex_translate import YandexTranslate
+from services.exceptions import TranslateError
+from logger import error
 
 __author__ = 'Glebov Boris'
 
@@ -13,32 +14,75 @@ __author__ = 'Glebov Boris'
 class TranslateService(BaseService):
     #
     # Public methods
+    def __init__(self):
+        self.ya_api = YandexTranslate(config.TRANSLATE_YANDEX_KEY)
+        self.ss = ServiceLocator.resolve(ServiceLocator.SESSIONS)
 
-    def translate(self, text, foreign, native):
+        BaseService.__init__(self)
+
+    def translate(self, text, direction):
         """
         Translate text from foreign language on native.
 
         This method tries to find translated word in own DB and if translate doesn't exists,
         it sends request to external service
         :param text: sentence to translate.
-        :param foreign: foreign language
-        :param native: native language
+        :param direction: Direction for translate. For example en-ru.
 
         :return: translated text
         """
 
-        translation = self.get(text, foreign, native)
+        translation = self.get(text, direction)
         if translation:
             return translation
 
-    def get(self, text, foreign, native):
+        response = self.ya_api.translate(text, direction)
+        if response and response[u'code'] == 200:
+            return self.add(text, response)
+
+        raise TranslateError(response)
+
+    def get(self, text, direction):
         """
         Try to find translation in DB
         :param text: sentence to translate.
-        :param foreign: foreign language
-        :param native: native language
+        :param direction: Direction for translate. For example en-ru.
 
         :return: translated text
         """
 
-        return self.db.Translation.find_one({'text': text, 'foreign': foreign, 'native': native})
+        return self.db.Translation.find_one({'text': text, 'direction': direction})
+
+    def add(self, text, translation):
+        """
+        Add to collection new translation
+        :param text: sentence to translate.
+        :param translation: response from translate.yandex.ru
+
+        :return: translated text
+        """
+
+        translation_entity = self.db.Translation()
+
+        translation_entity.direction = translation[u'lang']
+        translation_entity.text = text
+        translation_entity.variations = translation[u'text']
+        translation_entity.author = self.ss.get().login
+
+        try:
+            translation_entity.validate()
+            translation_entity.save()
+
+            return translation_entity
+        except Exception as ex:
+            error(u'Translate.add', ex)
+            return None
+
+    def detect(self, text):
+        """
+        Detect language
+        :param text: text for which needs to detect language
+        :return: language
+        """
+
+        return self.ya_api.detect(text)
