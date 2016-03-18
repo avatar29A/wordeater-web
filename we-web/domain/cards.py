@@ -20,7 +20,7 @@ class Card(BaseDocument):
         'text': unicode,
         'foreign_transcription': unicode,
         'foreign_context': unicode,
-        'image_url': unicode,
+
         'is_studying': bool,
         'is_done': bool,
         'create_date': datetime.datetime

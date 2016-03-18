@@ -64,7 +64,6 @@ class CardsAPI(CardsResource):
         native = args.get(u'native')
         transcription = args.get(u'transcription', u'')
         context = args.get(u'context', u'')
-        image_url = args.get(u'image_url', u'')
 
         user = self.ss.get_user()
         group = self.gs.pick_up(user)
@@ -73,7 +72,7 @@ class CardsAPI(CardsResource):
         if exists_card:
             return ApiResponse(status=409, errors=CardsErrors.card_already_exists(foreign, [u'foreign']))
 
-        card = self.cs.create(user, group, foreign, native, transcription, context, image_url)
+        card = self.cs.create(user, group, foreign, native, transcription, context)
         if card is None:
             return ApiResponse(status=500, errors=ServerErrors.internal_server_error([]))
 
@@ -125,7 +124,6 @@ class CardApi(CardsResource):
         native = args.get(u'native')
         transcription = args.get(u'transcription', card.transcription)
         context = args.get(u'context', card.foreign_context)
-        image_url = args.get(u'image_url', card.image_url)
 
         duplicate_card = self.cs.single(user, foreign, user.foreign_lng)
         if duplicate_card.id != card.id:
@@ -136,7 +134,6 @@ class CardApi(CardsResource):
             card.native = native
             card.transcription = transcription
             card.context = context
-            card.image_url = image_url
 
             card.save()
         except Exception as ex:

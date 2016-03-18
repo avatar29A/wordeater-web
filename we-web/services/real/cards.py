@@ -30,12 +30,10 @@ class CardService(BaseService):
                foreign,
                native,
                transcription=u'',
-               context=u'',
-               image_url=u''):
+               context=u''):
         """
         Create new card
         :param group: it's group where a card need to add. .
-        :param image_url:
         :param context:
         :param transcription:
         :param user: Owner
@@ -55,7 +53,6 @@ class CardService(BaseService):
         card.native = native
         card.foreign = foreign
         card.transcription = transcription
-        card.image_url = image_url
 
         # Try to set context:
         card.foreign_context = context if context else self._get_context(card.foreign)
