@@ -1,6 +1,6 @@
 # coding=utf-8
 
-from dal_test_base import db, BaseTest
+from tests.test_base import BaseTest
 from services.service_locator import ServiceLocator
 from datetime import date
 

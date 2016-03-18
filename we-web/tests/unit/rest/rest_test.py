@@ -2,7 +2,7 @@
 
 import json
 import unittest
-from tests.dal.dal_test_base import db, BaseTest
+from tests.test_base import BaseTest, db
 from app import app
 from services.service_locator import ServiceLocator
 

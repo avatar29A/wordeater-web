@@ -1,7 +1,6 @@
 # coding=utf-8
 
-import unittest
-from dal_test_base import BaseTest
+from tests.test_base import BaseTest
 from services.service_locator import ServiceLocator
 
 __author__ = 'Glebov Boris'

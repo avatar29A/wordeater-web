@@ -1,9 +1,8 @@
 # coding=utf-8
 
-import unittest
 import config
 from mongokit import ObjectId
-from dal_test_base import db, BaseTest
+from tests.test_base import BaseTest
 from services.service_locator import ServiceLocator
 
 

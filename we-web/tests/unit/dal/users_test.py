@@ -2,7 +2,7 @@
 
 import config
 
-from dal_test_base import BaseTest, ServiceLocator
+from tests.test_base import BaseTest, ServiceLocator
 from itsdangerous import TimedJSONWebSignatureSerializer as TokenSerializer, BadSignature, SignatureExpired
 
 __author__ = 'Glebov Boris'

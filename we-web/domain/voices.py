@@ -4,15 +4,15 @@ from model import *
 
 
 @db.register
-class Picture(BaseDocument):
+class Voice(BaseDocument):
     """
-    Store all pictures
+    Store all voices
     """
 
-    __collection__ = "pictures"
+    __collection__ = "voices"
 
     structure = {
-        'text': unicode,
+        "text": unicode,
         'author': unicode,
         'create_date': datetime.datetime
     }
@@ -27,12 +27,9 @@ class Picture(BaseDocument):
         {
             'fields': ['text'],
             'unique': True
-        },
-        {
-            'fields': ['author']
         }]
 
     gridfs = {
-        'files': ['source', 'text'],
-        'containers': ['pictures']
+        'files': ['source'],
+        'containers': ['voices']
     }

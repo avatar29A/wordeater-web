@@ -3,6 +3,7 @@ __author__ = 'Warlock'
 
 
 class ServiceLocator(object):
+    SESSIONS = "sessions"
     USERS = "users"
     GROUPS = "groups"
     CARDS = "cards"
@@ -12,9 +13,11 @@ class ServiceLocator(object):
     PICTURES = "pictures"
     VOCABULARITY = "vocabularity"
 
-    SESSIONS = "sessions"
-
     DB = "db"
+
+    # External
+    BLUEMIX = "bluemix"
+    GIPHY = "giphy"
 
     __service_factory = {}
 
