@@ -1,21 +1,20 @@
 # coding=utf-8
 
 from rest_test import *
-import api.resources.pictures.pictures
-from mongokit import ObjectId
+import api.resources.voices.voices
 
 __author__ = 'Glebov Boris'
 
 
-class PicturesAPI(RestBaseTest):
+class VoicesAPI(RestBaseTest):
     """
-    Test all cases for method /pictures/
+    Test all cases for method /voices/
     """
 
     def test_post(self):
         """
         1. Create session
-        2. Send request on picture by 'dog' word.
+        2. Send request on voice by 'dog' word.
         3. Expected 200
         """
 
@@ -49,7 +48,7 @@ class PicturesAPI(RestBaseTest):
         response_data = self._get(u'dog')
         j = json.loads(response_data)
         self.assertEqual(j[u'status'], 404)
-        self.assertEqual(j[u'errors'][u'error_type'], u'picture_doesnt_exists')
+        self.assertEqual(j[u'errors'][u'error_type'], u'voice_doesnt_exists')
 
     def test_get(self):
         """
@@ -73,16 +72,16 @@ class PicturesAPI(RestBaseTest):
 
         # Step 3
         response_data = self._get(u'dog')
-        self.assertEqual(response_data, 'gif')
+        self.assertEqual(response_data, 'wave')
 
     def _get(self, text):
         client_app = self.get_app_client()
-        r = client_app.get('/api/v1/picture/' + text + '/')
+        r = client_app.get('/api/v1/voice/' + text + '/')
         return r.data
 
     def _post(self, data):
         client_app = self.get_app_client()
-        r = client_app.post('/api/v1/pictures/random/', headers=self.headers, data=json.dumps(data))
+        r = client_app.post('/api/v1/voices/', headers=self.headers, data=json.dumps(data))
         response_data = json.loads(r.data)
 
         return response_data

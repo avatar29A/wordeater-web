@@ -117,6 +117,16 @@ class PicturesErrors:
         }
 
 
+class VoicesErrors:
+    @staticmethod
+    def picture_doesnt_exists(fields):
+        return {
+            'error_type': u'voice_doesnt_exists',
+            'error_msg': u"Voice doesn't exists",
+            'fields': fields
+        }
+
+
 class SignErrors:
     """
     Ошибки регистрации и входа в систему

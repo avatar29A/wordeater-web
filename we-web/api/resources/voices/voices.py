@@ -12,7 +12,7 @@ from services.service_locator import ServiceLocator
 from decorators.authenticate import expose
 from models import voice_fields, voice_input_fields, voice_schema
 
-from errors import ServerErrors, PicturesErrors
+from errors import ServerErrors, VoicesErrors
 from logger import error
 
 __author__ = 'Glebov Boris'
@@ -59,7 +59,7 @@ class VoicesAPI(VoiceResource):
             return ApiResponse(status=500, errors=ServerErrors.internal_server_error([]))
 
 
-@voices_ns.route('/voices/<string:text>/', endpoint='voice')
+@voices_ns.route('/voice/<string:text>/', endpoint='voice')
 class VoiceAPI(VoiceResource):
     @expose
     def get(self, text):
@@ -71,6 +71,6 @@ class VoiceAPI(VoiceResource):
 
         voice = self.vs.get(text)
         if voice is None:
-            return ApiResponse(status=404, errors=PicturesErrors.picture_doesnt_exists(['text']))
+            return ApiResponse(status=404, errors=VoicesErrors.picture_doesnt_exists(['text']))
 
         return Response(voice.fs.content, mimetype='audio/wav')
