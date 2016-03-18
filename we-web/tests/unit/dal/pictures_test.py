@@ -15,15 +15,12 @@ class PictureTest(BaseTest):
 
 class PictureGetTest(PictureTest):
     """
-    Test all case for translate method
+    Test all case for picture methods
     """
 
     def test_get_doesnt_exists_picture(self):
         """
-        Translate new word. Save in DB.
-
-        1. Check that translate is true
-        2. Checks that word preserved in DB
+        Check to get picture from DB
         :return:
         """
         self.clear_db()
