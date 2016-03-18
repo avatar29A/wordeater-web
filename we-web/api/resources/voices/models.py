@@ -5,13 +5,13 @@ from flask.ext.restplus import fields
 from utils.cerberus_utils import get_input_model_from_cerberus_schema
 
 
-picture_schema = {
+voice_schema = {
     u'text': {'type': 'string', 'required': True, 'nullable': False, 'empty': False}
 }
 
-picture_input_fields = get_input_model_from_cerberus_schema(picture_schema, u'PictureInput')
+voice_input_fields = get_input_model_from_cerberus_schema(voice_schema, u'VoiceInput')
 
-picture_fields = api.model(u'PictureModel', {
+voice_fields = api.model(u'VoiceModel', {
     u'id': fields.String,
     u'text': fields.String
 })

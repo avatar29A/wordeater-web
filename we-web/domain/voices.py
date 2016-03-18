@@ -30,6 +30,6 @@ class Voice(BaseDocument):
         }]
 
     gridfs = {
-        'files': ['source'],
+        'files': ['content'],
         'containers': ['voices']
     }

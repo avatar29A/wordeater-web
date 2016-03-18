@@ -11,6 +11,7 @@ class ServiceLocator(object):
     LOGIN_AUDIT = "login_audit"
     TRANSLATIONS = "translations"
     PICTURES = "pictures"
+    VOICES = "voices"
     VOCABULARITY = "vocabularity"
 
     DB = "db"

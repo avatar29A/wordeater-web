@@ -7,27 +7,30 @@ from logger import error
 __author__ = 'Glebov Boris'
 
 
-class PictureService(BaseService):
+class VoicesService(BaseService):
     def __init__(self):
         BaseService.__init__(self)
 
     def get(self, text):
         """
-        Try to find picture in DB
-        :param text: sentence to find.
-
-        :return: picture entity
+        Try to find voice in DB
+        :param text: sentence to find voice.
+        :return: voice entity
         """
 
-        return self.db.Picture.find_one({'text': text})
+        return self.db.Voice.find_one({'text': text})
 
     def add(self, text, file):
         """
-        Add to collection new picture
+        Add to collection new voice
         :param text: text for search
         :param file: gif image
         :return: Picture entity
         """
+
+        # Не соханяем запись без контента:
+        if file is None:
+            return None
 
         # check what text is doesn't exists, else to return  the found entity
         duplicate = self.get(text)
@@ -36,19 +39,19 @@ class PictureService(BaseService):
 
         ss = ServiceLocator.resolve(ServiceLocator.SESSIONS)
 
-        picture = self.db.Picture()
-        picture.text = text
+        voice = self.db.Voice()
+        voice.text = text
 
-        picture.author = ss.get().login
+        voice.author = ss.get().login
 
         try:
-            picture.validate()
-            picture.save()
+            voice.validate()
+            voice.save()
 
             # Сохраняем картинку:
-            picture.fs.content = file
+            voice.fs.content = file
 
-            return picture
+            return voice
         except Exception as ex:
-            error(u'Pictures.add', ex)
+            error(u'Voice.add', ex)
             return None
