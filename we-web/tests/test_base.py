@@ -13,10 +13,6 @@ from services.real.schedules import ScheduleService
 from services.real.translate import TranslateService
 from services.real.pictures import PictureService
 
-# External
-from services.external.bluemix import BluemixService
-from services.external.giphy import GiphyService
-
 # MOCKS
 from services.mocks.session import SessionService
 from services.mocks.vocabularity import VocabularityService
@@ -42,24 +38,17 @@ class BaseTest(unittest.TestCase):
         ServiceLocator.register(ServiceLocator.CARDS, CardService())
         ServiceLocator.register(ServiceLocator.LOGIN_AUDIT, LoginAutits())
         ServiceLocator.register(ServiceLocator.SCHEDULES, ScheduleService())
-
-        # External
-        ServiceLocator.register(ServiceLocator.BLUEMIX, BluemixService())
-        ServiceLocator.register(ServiceLocator.GIPHY, GiphyService())
+        ServiceLocator.register(ServiceLocator.PICTURES, PictureService())
 
         # Mock:
         ServiceLocator.register(ServiceLocator.SESSIONS, SessionService())
         ServiceLocator.register(ServiceLocator.VOCABULARITY, VocabularityService())
+        ServiceLocator.register(ServiceLocator.GIPHY, GiphyFake())
 
         # Mock translate service
         ts = TranslateService()
         ts.engine = YandexTranslateFake()
         ServiceLocator.register(ServiceLocator.TRANSLATIONS, ts)
-
-        # Mock picutre service
-        ps = PictureService()
-        ps.engine = GiphyFake()
-        ServiceLocator.register(ServiceLocator.PICTURES, ps)
 
     def create_demo_user(self):
         us = ServiceLocator.resolve(ServiceLocator.USERS)

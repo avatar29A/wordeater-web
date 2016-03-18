@@ -93,7 +93,7 @@ class GroupsErrors:
         }
 
     @staticmethod
-    def group_dont_exists(fields):
+    def group_doesnt_exists(fields):
         """
         Cards don't exists
         :param fields:
@@ -101,8 +101,18 @@ class GroupsErrors:
         """
 
         return {
-            'error_type': u'grup_dont_exists',
+            'error_type': u'group_doesnt_exists',
             'error_msg': u'Запрошенная группа не найдена, возможно она была удалена.',
+            'fields': fields
+        }
+
+
+class PicturesErrors:
+    @staticmethod
+    def picture_doesnt_exists(fields):
+        return {
+            'error_type': u'picture_doesnt_exists',
+            'error_msg': u"Picture doesn't exists",
             'fields': fields
         }
 

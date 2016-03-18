@@ -81,7 +81,7 @@ class GroupAPI(GroupResource):
 
         group = self.gs.single(group_id)
         if group is None:
-            return ApiResponse(status=404, errors=GroupsErrors.group_dont_exists([]))
+            return ApiResponse(status=404, errors=GroupsErrors.group_doesnt_exists([]))
 
         group.cards = list(group.get_cards())
         return group
@@ -104,7 +104,7 @@ class GroupAPI(GroupResource):
 
         group = self.gs.single(group_id)
         if group is None:
-            return ApiResponse(status=404, errors=GroupsErrors.group_dont_exists([]))
+            return ApiResponse(status=404, errors=GroupsErrors.group_doesnt_exists([]))
 
         name = args.get(u'name')
         description = args.get(u'description', group.description)

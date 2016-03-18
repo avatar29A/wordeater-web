@@ -1,7 +1,8 @@
 # coding=utf-8
 
+import os
 from tests.test_base import BaseTest
-from services.service_locator import ServiceLocator
+from services.external.giphy import GiphyService
 
 __author__ = 'Glebov Boris'
 
@@ -10,7 +11,7 @@ class GiphyTest(BaseTest):
     def setUp(self):
         BaseTest.setUp(self)
 
-        self.gs = ServiceLocator.resolve(ServiceLocator.GIPHY)
+        self.gs = GiphyService()
 
 
 class GiphyRandomTest(GiphyTest):

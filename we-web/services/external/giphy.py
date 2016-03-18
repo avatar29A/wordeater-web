@@ -17,8 +17,7 @@ class GiphyService(BaseService):
     def random(self, text):
         """
         Get random gif image by tag, if word doesn't exists in DB
-        :param word: word
-        :return:
+        :param text: text
         """
         response = self.engine.random(tag=text)
         if response and response[u'meta'][u'status'] == 200:

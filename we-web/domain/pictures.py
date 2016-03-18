@@ -33,6 +33,6 @@ class Picture(BaseDocument):
         }]
 
     gridfs = {
-        'files': ['source', 'text'],
+        'files': ['content'],
         'containers': ['pictures']
     }

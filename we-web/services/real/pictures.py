@@ -1,9 +1,8 @@
 # coding=utf-8
 
-import safygiphy
-
 from services.base import BaseService
 from services.service_locator import ServiceLocator
+from mongokit import ObjectId
 from logger import error
 
 __author__ = 'Glebov Boris'
@@ -11,8 +10,6 @@ __author__ = 'Glebov Boris'
 
 class PictureService(BaseService):
     def __init__(self):
-        self.engine = safygiphy.Giphy()
-
         BaseService.__init__(self)
 
     def get(self, text):
@@ -34,6 +31,11 @@ class PictureService(BaseService):
         :return: Picture entity
         """
 
+        # check what text is doesn't exists, else to return  the found entity
+        duplicate = self.get(text)
+        if duplicate:
+            return duplicate
+
         ss = ServiceLocator.resolve(ServiceLocator.SESSIONS)
 
         picture = self.db.Picture()
@@ -46,8 +48,7 @@ class PictureService(BaseService):
             picture.save()
 
             # Сохраняем картинку:
-            picture.fs.text = text
-            picture.fs.source = file
+            picture.fs.content = file
 
             return picture
         except Exception as ex:

@@ -1,7 +1,7 @@
 # coding=utf-8
 
 from tests.test_base import BaseTest
-from services.service_locator import ServiceLocator
+from services.external.bluemix import BluemixService
 
 
 __author__ = 'Glebov Boris'
@@ -11,7 +11,7 @@ class BluemixTest(BaseTest):
     def setUp(self):
         BaseTest.setUp(self)
 
-        self.bs = ServiceLocator.resolve(ServiceLocator.BLUEMIX)
+        self.bs = BluemixService()
 
 
 class BluemixSynthTest(BluemixTest):

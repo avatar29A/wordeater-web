@@ -12,9 +12,6 @@ picture_schema = {
 picture_input_fields = get_input_model_from_cerberus_schema(picture_schema, u'GroupInput')
 
 picture_fields = api.model(u'TranslationModel', {
-    u'text': fields.String,
-    u'mp4': fields.String,
-    u'url': fields.String,
-    u'original': fields.String,
-    u'original_small': fields.String
+    u'id': fields.String,
+    u'text': fields.String
 })
