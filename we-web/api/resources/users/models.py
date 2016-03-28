@@ -9,8 +9,8 @@ user_schema = {
     'login': {'type': 'string', 'required': True, 'nullable': False, 'empty': False, 'validator': validate_user_login},
     'password': {'type': 'string', 'required': True, 'nullable': False, 'empty': False},
     'email': {'type': 'string', 'required': True, 'nullable': False, 'empty': False},
-    'first_name': {'type': 'string', 'required': True, 'nullable': False, 'empty': False},
-    'last_name': {'type': 'string', 'required': True, 'nullable': False, 'empty': False}
+    'first_name': {'type': 'string', 'required': False, 'nullable': True, 'empty': True},
+    'last_name': {'type': 'string', 'required': False, 'nullable': True, 'empty': True}
 }
 
 user_input_fields = get_input_model_from_cerberus_schema(user_schema, 'UserInput')

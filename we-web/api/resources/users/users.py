@@ -98,8 +98,8 @@ class UserSignUpAPI(Resource):
         email = args.get('email')
         password = args.get('password')
 
-        first_name = args.get('first_name')
-        last_name = args.get('last_name')
+        first_name = args.get('first_name', '')
+        last_name = args.get('last_name', '')
 
         try:
             us.check(login, email)
