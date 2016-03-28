@@ -31,6 +31,6 @@ configparser2==4.0.0
 pydash
 
 # Wrappers
-yandex.translate
-safygiphy
-Vocabularity=0.0.5
+yandex.translate==0.3.5
+safygiphy==1.0.3.0
+Vocabularity==0.0.5
