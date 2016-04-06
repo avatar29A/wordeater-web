@@ -86,7 +86,7 @@ class CardsPostTest(RestBaseTest):
         gs = ServiceLocator.resolve(ServiceLocator.GROUPS)
 
         user = us.single(u'user1')
-        group = gs.pick_up(user)
+        group = gs.create(user, u'test_group')
 
         cs.create(user, group, u'dog', u'собака')
 
@@ -95,6 +95,7 @@ class CardsPostTest(RestBaseTest):
             u'native': u'собака',
             u'context': u"dog it's human pet",
             u'transcription': u'',
+            u'group_id': str(group.id)
         }
 
         result_data = self._post(data)
@@ -105,11 +106,18 @@ class CardsPostTest(RestBaseTest):
         self.clear_db()
         self.create_demo_session()
 
+        us = ServiceLocator.resolve(ServiceLocator.USERS)
+        gs = ServiceLocator.resolve(ServiceLocator.GROUPS)
+
+        user = us.single(u'user1')
+        group = gs.create(user, u'test_group')
+
         data = {
             u'foreign': u'dog',
             u'native': u'собака',
             u'context': u"dog it's human pet",
             u'transcription': u'',
+            u'group_id': str(group.id)
         }
 
         result_data = self._post(data)
@@ -214,14 +222,15 @@ class CardPutTest(RestBaseTest):
         us, gp, cs = _resolve_services()
 
         user = us.single(u'user1')
-        group = gp.pick_up(user)
+        group = gp.create(user, u'test_group')
 
         card = cs.create(user, group, u'dog', u'собак')
 
         # Step 3
         data = {
             u'foreign': u'dog',
-            u'native': u'собака'
+            u'native': u'собака',
+            u'group_id': str(group.id)
         }
 
         r = self._patch(str(card.id), data)
@@ -251,7 +260,7 @@ class CardPutTest(RestBaseTest):
         us, gp, cs = _resolve_services()
 
         user = us.single(u'user1')
-        group = gp.pick_up(user)
+        group = gp.create(user, u'test_group')
 
         card1 = cs.create(user, group, u'dog', u'собака')
         card2 = cs.create(user, group, u'cat', u'кошка')
@@ -259,7 +268,8 @@ class CardPutTest(RestBaseTest):
         # Step 3
         data = {
             u'foreign': u'cat',
-            u'native': u'собака'
+            u'native': u'собака',
+            u'group_id': str(group.id)
         }
 
         r = self._patch(str(card1.id), data)
@@ -286,7 +296,8 @@ class CardPutTest(RestBaseTest):
 
         data = {
             u'foreign': u'dog',
-            u'native': u'собака'
+            u'native': u'собака',
+            u'group_id': u'-1'
         }
 
         r = self._patch(str(ObjectId()), data)

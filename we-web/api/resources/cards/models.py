@@ -10,7 +10,8 @@ card_schema = {
     u'foreign': {'type': 'string', 'required': True, 'nullable': False, 'empty': False},
     u'native': {'type': 'string', 'required': True, 'nullable': False, 'empty': False},
     u'transcription': {'type': 'string', 'required': False, 'nullable': True, 'empty': True},
-    u'context': {'type': 'string', 'required': False, 'nullable': True, 'empty': True}
+    u'context': {'type': 'string', 'required': False, 'nullable': True, 'empty': True},
+    u'group_id': {'type': 'string', 'required': True, 'nullable': False, 'empty': False}
 }
 
 card_input_fields = get_input_model_from_cerberus_schema(card_schema, 'CardInput')

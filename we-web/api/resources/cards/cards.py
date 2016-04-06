@@ -62,11 +62,13 @@ class CardsAPI(CardsResource):
 
         foreign = args.get(u'foreign')
         native = args.get(u'native')
+        group_id = args.get(u'group_id')
+
         transcription = args.get(u'transcription', u'')
         context = args.get(u'context', u'')
 
         user = self.ss.get_user()
-        group = self.gs.pick_up(user)
+        group = self.gs.single(group_id, user)
 
         exists_card = self.cs.exists(user, foreign, user.foreign_lng)
         if exists_card:
