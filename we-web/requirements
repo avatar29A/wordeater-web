@@ -33,4 +33,4 @@ pydash
 # Wrappers
 yandex.translate==0.3.5
 safygiphy==1.0.3.0
-Vocabularity==0.0.5
+vocabulary==0.0.5
