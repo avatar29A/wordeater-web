@@ -1,5 +1,7 @@
 # WordEater RestFull API server
 
+[![Build Status](https://travis-ci.org/h-qub/wordeater-web.svg?branch=master)](https://travis-ci.org/h-qub/wordeater-web)
+
 WordEater it's project what need to help you learn new foreign words 
 
 # Requirements
